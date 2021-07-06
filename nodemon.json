@@ -1,0 +1,12 @@
+{
+  "verbose": false,
+  "watch": [
+    "src/*",
+    "config/*",
+    "index.js"
+  ],
+  "ignore": [
+    "./node_modules/"
+  ],
+  "exec": "set DEBUG=src:*, --inspect=localhost:9229 index.js"
+}
