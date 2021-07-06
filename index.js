@@ -24,19 +24,16 @@ require('dotenv').config()
 // const debug = require('debug')('chat-group-server:server')
 
 const mongoDBConnection = require('@/libs/mongo.js')
-const redis = require('@/libs/redis')
+
 const app = require('@/app')
-const { redisAsync } = require('@/utils/helper')
 
 const logger = require('@root/config/logger')
 
 const init = async () => {
   // Load libs
   await Promise.all([
-    mongoDBConnection(), // connect db
-    redis(redisAsync) // connect redis
+    mongoDBConnection() // connect db
   ])
-    .then(() => require('@/libs').slackNoti())
 
   /** Start server */
   await app()

@@ -11,11 +11,17 @@ const http = require('http')
 const path = require('path')
 const cors = require('cors')
 const fs = require('fs')
+const passport = require('passport')
+const flash = require('connect-flash')
 const nunjucks = require('nunjucks')
 const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const validator = require('express-validator')
+const MongoStore = require('connect-mongo')
 const methodOverride = require('method-override')
 
 const corsOptions = require('@root/config/cors')
+const configDB = require('@root/config/database')
 
 const clientErrorHandler = require('@/middlewares/error/clientErrorHandler')
 const { normalizePort } = require('@/utils/helper')
@@ -25,6 +31,8 @@ const rootDirectory = fs.realpathSync(process.cwd())
 
 const startServer = async() => {
   const app = express()
+
+  require('@root/config/passport')
 
   /**
    * set up engine nunjucks
@@ -40,11 +48,14 @@ const startServer = async() => {
     watch: true
   })
 
+  app.use(validator())
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
   app.use(cookieParser())
   app.use(express.static(path.join(rootDirectory, 'public')))
-
+  app.use('/css', express.static(path.join(rootDirectory, 'node_modules/bootstrap/dist/css')))
+  app.use('/js', express.static(path.join(rootDirectory, 'node_modules/bootstrap/dist/js')))
+  app.use('/jquery', express.static(path.join(rootDirectory, 'node_modules/jquery/dist/')))
   /**
    *  override with different headers; last one takes precedence : Microsoft, Google/GData, IBM
    */
@@ -56,6 +67,27 @@ const startServer = async() => {
     * set up cors
     */
   app.use(cors(corsOptions))
+
+  app.use(session({
+    secret: 'thanhdat',
+    resave: false,
+    saveUninitialized: false,
+    dbName: 'session',
+    store: MongoStore.create({ mongoUrl: configDB.uri })
+    // cookie: {maxAge: 180 * 60 * 1000}
+  }))
+
+  app.use(flash())
+  app.use(passport.initialize())
+  app.use(passport.session())
+
+  app.use(function(req, res, next) {
+    res.locals.login = req.isAuthenticated()
+    res.locals.session = req.session
+    res.locals.succsess_msg = req.flash('succsess_msg')
+    res.locals.user = req.user
+    next()
+  })
 
   /**
     *  setup routes

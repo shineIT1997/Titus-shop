@@ -7,7 +7,7 @@
 */
 
 const corsOptions = {
-  origin: ['http://127.0.0.1:4000', 'http://localhost:5000'],
+  origin: '*',
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 204,
   preflightContinue: true,
