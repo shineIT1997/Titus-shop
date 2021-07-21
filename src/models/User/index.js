@@ -69,6 +69,14 @@ UserSchema.post('save', function(err, doc, next) {
   return next(err)
 })
 
+UserSchema.methods.isGroupAdmin = function(checkRole) {
+  if (checkRole === 'ADMIN') {
+    return true
+  } else {
+    return false
+  }
+}
+
 // /**
 //   * Virtual type
 //   */
@@ -135,4 +143,4 @@ UserSchema.post('save', function(err, doc, next) {
 //   foreignField: 'users'
 // })
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('user', UserSchema)

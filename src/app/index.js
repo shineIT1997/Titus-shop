@@ -21,7 +21,6 @@ const MongoStore = require('connect-mongo')
 const methodOverride = require('method-override')
 
 const corsOptions = require('@root/config/cors')
-const configDB = require('@root/config/database')
 
 const clientErrorHandler = require('@/middlewares/error/clientErrorHandler')
 const { normalizePort } = require('@/utils/helper')
@@ -53,6 +52,8 @@ const startServer = async() => {
   app.use(express.urlencoded({ extended: false }))
   app.use(cookieParser())
   app.use(express.static(path.join(rootDirectory, 'public')))
+  app.use('/upload', express.static(path.join(rootDirectory, 'public/upload')))
+  app.use('/css', express.static(path.join(rootDirectory, 'node_modules/bootstrap/dist/css')))
   app.use('/css', express.static(path.join(rootDirectory, 'node_modules/bootstrap/dist/css')))
   app.use('/js', express.static(path.join(rootDirectory, 'node_modules/bootstrap/dist/js')))
   app.use('/jquery', express.static(path.join(rootDirectory, 'node_modules/jquery/dist/')))
@@ -68,12 +69,14 @@ const startServer = async() => {
     */
   app.use(cors(corsOptions))
 
+  const uriDB = process.env.MONGOBD_CONFIG_URI
+
   app.use(session({
     secret: 'thanhdat',
     resave: false,
     saveUninitialized: false,
     dbName: 'session',
-    store: MongoStore.create({ mongoUrl: configDB.uri })
+    store: MongoStore.create({ mongoUrl: uriDB })
     // cookie: {maxAge: 180 * 60 * 1000}
   }))
 

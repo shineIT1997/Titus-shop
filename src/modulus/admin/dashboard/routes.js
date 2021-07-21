@@ -6,13 +6,19 @@
 *@summary : create route for dashboard page
 */
 
+const { isLoggedIn, notisLoggedIn } = require('@/middlewares/auth')
 const express = require('express')
 const passport = require('passport')
+const glob = require('glob')
+const path = require('path')
+const fs = require('fs')
 const router = express.Router()
+
+const rootDirectory = fs.realpathSync(process.cwd())
 
 /* GET home page. */
 router.get('/', isLoggedIn, function (req, res, next) {
-  res.render('index', { title: 'Express' })
+  res.render('index', { title: 'Express', image: 'upload/supplier/1626539115035_image.png' })
 })
 
 router.get('/login', notisLoggedIn, function(req, res, next) {
@@ -29,23 +35,22 @@ router.post('/login', passport.authenticate('local.login_ad', {
   failureRedirect: '/login',
   failureFlash: true
 }))
+router.post('/test', function (req, res, next) {
+  console.log(`req.body : `, req.body)
+})
 
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated() && req.user.roles === 'ADMIN') {
-    return next()
-  } else { res.redirect('/login') }
-}
+router.get('/logout', isLoggedIn, function(req, res, next) {
+  req.logout()
+  res.redirect('/login')
+})
 
-function notisLoggedIn(req, res, next) {
-  if (!req.isAuthenticated()) {
-    return next()
-  } else {
-    if (req.isAuthenticated() && req.user.roles !== 'ADMIN') {
-      return next()
-    } else {
-      res.redirect('/')
-    }
-  }
-}
+router.get('/list', isLoggedIn, function(req, res, next) {
+  glob(path.join(rootDirectory, 'public/upload/*/*'), function (er, files) {
+    const urlList = files.map(file => {
+      return file.split('/').slice(-2).join('/')
+    })
+    res.render('listImage', { urlList: urlList })
+  })
+})
 
 module.exports = router

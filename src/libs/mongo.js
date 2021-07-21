@@ -8,12 +8,11 @@
 
 const mongoose = require('mongoose')
 // const mongoosePaginate = require('./mongoose-paginate')
-const config = require('@root/config/database')
 
 // mongoose.plugin(mongoosePaginate)
 
 const connectDB = async () => {
-  const uri = config.uri
+  const uri = process.env.MONGOBD_CONFIG_URI
 
   const options = {
     useCreateIndex: true,

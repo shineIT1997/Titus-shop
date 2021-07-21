@@ -20,6 +20,31 @@ const schema = {
       message: props => `${props.value} is not a valid email!`
     }
   },
+  firstname: {
+    type: String,
+    trim: true,
+    require: true
+  },
+  lastname: {
+    type: String,
+    trim: true,
+    require: true
+  },
+  address: {
+    type: String,
+    trim: true,
+    require: true
+  },
+  city: {
+    type: String,
+    trim: true,
+    require: true
+  },
+  roles: {
+    type: String,
+    trim: true,
+    require: true
+  },
   phone: {
     type: String,
     trim: true,
@@ -33,16 +58,14 @@ const schema = {
     }
   },
   password: {
-    type: String
-  },
-  isVerified: {
-    type: Boolean,
-    default: false
+    type: String,
+    require: true
   }
+
 }
 
 const options = {
-  collection: 'User',
+  collection: 'user',
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true }

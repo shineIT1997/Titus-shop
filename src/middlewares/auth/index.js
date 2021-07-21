@@ -45,7 +45,26 @@ const authorize = (roles = []) => {
   ]
 }
 
-module.exports = {
-  authorize
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated() && req.user.roles === 'ADMIN') {
+    return next()
+  } else { res.redirect('/login') }
+}
 
+function notisLoggedIn(req, res, next) {
+  if (!req.isAuthenticated()) {
+    return next()
+  } else {
+    if (req.isAuthenticated() && req.user.roles !== 'ADMIN') {
+      return next()
+    } else {
+      res.redirect('/')
+    }
+  }
+}
+
+module.exports = {
+  authorize,
+  isLoggedIn,
+  notisLoggedIn
 }

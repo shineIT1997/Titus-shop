@@ -9,7 +9,7 @@
 const createError = require('http-errors')
 
 const clientErrorHandler = (req, res, next) => {
-  next(createError(404))
+  // next(createError(404))
 }
 
 module.exports = clientErrorHandler

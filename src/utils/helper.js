@@ -11,6 +11,13 @@
 const crypto = require('crypto')
 const { promisify } = require('util')
 
+/**
+ * Check input is Object or not
+ * @param {Any} obj
+ * @return {Boolean}
+ */
+const isObject = obj => obj && typeof obj === 'object' && !Array.isArray(obj)
+
 const redisAsync = (client) => {
   global.REDIS.get = promisify(client.get).bind(client)
   global.REDIS.set = promisify(client.set).bind(client)
@@ -82,11 +89,20 @@ const randomTokenString = () => {
   return crypto.randomBytes(40).toString('hex')
 }
 
+/**
+ * Valid input is an Object
+ * @param {Any} obj
+ * @return {Object}
+ */
+const ensureObject = (obj, defaultValue) => isObject(obj) ? obj : isObject(defaultValue) ? defaultValue : {}
+
 module.exports = {
   normalizePort,
   isNumberic,
+  isObject,
   randomTokenString,
   formatCurrency,
   validateEmail,
-  redisAsync
+  redisAsync,
+  ensureObject
 }

@@ -1,6 +1,29 @@
 {% extends  'layout.njk' %}
 
+{% block sidebar %}
+  {% include 'partials/sidebar/sidebar.njk' %}
+{% endblock %}
+
 {% block content %}
   <h1>{{title}}</h1>
   <p>Welcom to {{title}}</p>
+<form action="/test" method="POST">
+  <textarea name="editor" id="editor">
+      <p>Here goes the initial content of the editor.</p>
+  </textarea>
+
+  <input type="submit">
+</form>
+
+{% endblock %}
+
+{% block footer %}
+  <script language="JavaScript">
+      CKEDITOR.replace( document.querySelector( '#editor' ), {
+        extraPlugin: "filebrowser",
+        filebrowserBrowseUrl: "/list",
+        filebrowserUploadMethod: "form",
+        filebrowserUploadUrl: "/news/upload"
+      } )
+  </script>
 {% endblock %}

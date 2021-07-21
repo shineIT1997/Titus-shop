@@ -1,0 +1,65 @@
+{% extends  'layout.njk' %}
+
+{% block sidebar %}
+  {% include 'partials/sidebar/sidebar.njk' %}
+{% endblock %}
+
+{% block style %}
+  <style>
+    .mannerImage {
+      height: 60px;
+    }
+
+    td {
+      vertical-align: baseline;
+      padding: 8px 0 !important;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Danh sách nhà cung cấp</h1>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Mã nhà cung cấp</th>
+          <th scope="col">Tên nhà cung cấp</th>
+          <th scope="col">Hình ảnh đại diện</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for manner in mannerData %}
+          <tr>
+            <td>{{manner.mannerId}}</td>
+            <td>{{manner.name}}</td>
+            <td>
+              <img class="mannerImage" src={{manner.imagePath}}>
+            </td>
+            <td>
+              <a style="color: red;" href={{"/manner/" + manner._id + "/delete.html"}}>Xoá</a> | 
+              <a href={{"/manner/" + manner._id + "/update.html"}}>Sửa</a>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td class="text-center" colspan="4">Danh sách rỗng</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <script language="JavaScript">
+
+    document.querySelector("#style-collapse").classList = "collapse show"
+    document.querySelector('button[data-bs-target="#style-collapse"]').classList = "btn btn-toggle align-items-center rounded collapsed activeNav"
+
+  </script>
+{% endblock %}

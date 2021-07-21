@@ -96,7 +96,6 @@ passport.use('local.login_ad', new LocalStrategy({
   passwordField: 'password',
   passReqToCallback: true
 }, function(req, email, password, done) {
-  console.log(`req : `, req)
   req.checkBody('email', 'Địa chỉ email không hợp lệ vui, lòng kiểm tra lại.').notEmpty().isEmail()
   req.checkBody('password', 'Mật khẩu không hợp lệ.').notEmpty()
 

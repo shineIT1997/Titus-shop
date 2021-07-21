@@ -1,0 +1,72 @@
+{% extends  'layout.njk' %}
+
+{% block sidebar %}
+  {% include 'partials/sidebar/sidebar.njk' %}
+{% endblock %}
+
+{% block style %}
+  <style>
+    .supplierImage {
+      height: 40px;
+    }
+
+    td {
+      vertical-align: baseline;
+      padding: 8px 0 !important;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Danh sách nhà cung cấp</h1>
+  </div>
+
+  {% if succsess_del_supplier %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <p class="mb-0">{{succsess_del_supplier}}</p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endif %}
+
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Mã nhà cung cấp</th>
+          <th scope="col">Tên nhà cung cấp</th>
+          <th scope="col">Hình ảnh đại diện</th>
+          <th scope="col">Header</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for supplier in supplierData %}
+          <tr>
+            <td>{{supplier.supId}}</td>
+            <td>{{supplier.name}}</td>
+            <td>
+              <img class="supplierImage" src={{supplier.imagePath}}>
+            </td>
+            <td>
+              <a style="color: red;" href={{"/supplier/" + supplier._id + "/delete.html"}}>Xoá</a> | 
+              <a href={{"/supplier/" + supplier._id + "/update.html"}}>Sửa</a>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td class="text-center" colspan="4">Danh sách rỗng</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <script language="JavaScript">
+
+  document.querySelector("#merchant-collapse").classList = "collapse show"
+  document.querySelector('button[data-bs-target="#merchant-collapse"]').classList = "btn btn-toggle align-items-center rounded collapsed activeNav"
+
+  </script>
+{% endblock %}

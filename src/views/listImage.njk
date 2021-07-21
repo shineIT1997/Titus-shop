@@ -1,0 +1,23 @@
+{% extends  'layout.njk' %}
+
+{% block style %}
+<style>
+  img {
+    width: 200px;
+    height: 200px;
+    margin: 16px;
+    border: solid 1px green;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+    {% for urlImage in urlList %}
+      <img src={{"/upload/" + urlImage}} alt="">
+    {% else %}
+      <tr>
+        <td class="text-center" colspan="4">Danh sách rỗng</td>
+      </tr>
+    {% endfor %}
+
+{% endblock %}

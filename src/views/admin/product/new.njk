@@ -1,0 +1,404 @@
+{% extends  'layout.njk' %}
+
+{% block sidebar %}
+  {% include 'partials/sidebar/sidebar.njk' %}
+{% endblock %}
+
+
+{% block style %}
+<style>
+  .button-wrapper {
+    position: relative;
+    width: 150px;
+    text-align: center;
+    margin: 8px 0;
+  }
+
+  .upload-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+
+  .button-wrapper span.label {
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    width: 100%;
+    background: #00bfff;
+    cursor: pointer;
+    color: #fff;
+    padding: 10px 0;
+    text-transform:uppercase;
+    font-size:12px;
+  }
+
+  #upload {
+      display: inline-block;
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 50px;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+  }
+
+  .imageBox {
+    position: relative;
+    margin:8px;
+  }
+
+  .image-thumbnail {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+  }
+
+  .removeImage {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  option {
+    padding: 8px 8px;
+    border-bottom: 1px solid #d2d2d2;
+  }
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Thêm sản phẩm</h1>
+</div>
+
+
+<div class="row" style="padding: 0px 16px 32px">
+  <form 
+      class="needs-validation" 
+      novalidate="" 
+      id="formProduct" 
+      action="/product/new.html" 
+      method="post" 
+      enctype="multipart/form-data">
+      <div class="row g-3">  
+      <h5 class="mb-3">Thông tin cơ bản</h5>
+      <div class="col-md-6 col-lg-8 px-20">
+          <div class="row g-3">          
+              <div class="col-sm-6">
+                <label for="id" class="form-label">Mã sản phẩm <span class="text-danger">(bắc buộc)</span></label>
+                <input type="text" class="form-control" id="id" name="id" placeholder="" value="" required="">
+                <div class="invalid-feedback">
+                  Mã sản phẩm không hợp lệ
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <label for="name" class="form-label">Tên sản phẩm <span class="text-danger">(bắc buộc)</span></label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="" value="" required="">
+                <div class="invalid-feedback">
+                  Tên sản phẩm không hợp lệ
+                </div>
+              </div>
+
+            <div class="col-12">
+              <label for="suplier" class="form-label">Nhà cung cấp</label>
+              <select id="suplier" name="suplier" class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                {% for supplier in supplierList %}
+                  <option value={{supplier.supId}}>{{supplier.name}}</option>
+                {% else %}
+                  <li>This would display if the 'item' collection were empty</li>
+                {% endfor %}
+              </select>
+              <div class="invalid-feedback">
+                Hãy chọn nhà cung cấp
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="category" class="form-label">Dòng sản phẩm</label>
+              <select multiple id="category" name="category" class="form-select" aria-label="Default select example">
+                {% for category in cateList %}
+                  <option value={{category.cateId}}>{{category.name}}</option>
+                {% else %}
+                  <li>This would display if the 'item' collection were empty</li>
+                {% endfor %}
+              </select>
+              <div class="invalid-feedback">
+                Hãy chọn dòng sản phẩm
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="manner" class="form-label">Phong cách</label>
+              <select multiple id="manner" name="manner" class="form-select" aria-label="Default select example">
+                {% for manner in mannerList %}
+                  <option value={{manner.mannerId}}>{{manner.name}}</option>
+                {% else %}
+                  <li>This would display if the 'item' collection were empty</li>
+                {% endfor %}
+              </select>
+              <div class="invalid-feedback">
+                Hãy chọn phong cách sản phẩm
+              </div>
+            </div>
+
+              <div class="col-sm-12">
+                <label for="description" class="form-label">Mô tả sản phẩm</label>
+                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+              </div>
+            </div>
+
+            <hr class="my-4">
+            <div class="row g-3">  
+              <h5 class="my-3">Thông tin SEO</h5>
+            </div>
+
+              <div class="col-sm-12 mt-3">
+                <label for="metaTitle" class="form-label">Tiêu đề meta</label>
+                <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="" value="">
+              </div>
+
+              <div class="col-sm-12 mt-3">
+                <label for="metaKeywords" class="form-label">Meta Keywords</label>
+                <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="" value="">
+              </div>
+
+              <div class="col-sm-12 mt-3">
+                <label for="metaDescription" class="form-label">Mô tả Meta</label>
+                <textarea row="5" class="form-control" id="metaDescription" name="metaDescription"></textarea>
+              </div>
+        </div>
+
+
+      <div class="col-md-6 col-lg-4 px-20">
+        <div class="row g-3">
+          <div class="col-sm-12">
+            <label for="baseImage" class="form-label">Hình ảnh đại diện <span class="text-danger">(bắc buộc)</span></label>
+            <div class="button-wrapper">
+              <span class="label">
+                Upload File
+              </span>
+              <input 
+                required
+                id="baseImage" 
+                type="file" 
+                name="baseImage" 
+                class="upload-box form-label" 
+                placeholder="Upload File">
+            </div>
+
+            <div class="invalid-feedback">
+              Hinh ảnh đại diện không hợp lệ
+            </div>
+            <div class="d-flex flex-wrap justify-content-start" id="baseImagePreview">  
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+            <label for="file-input" class="form-label">Hình ảnh bổ sung</label>
+            <div class="button-wrapper">
+              <span class="label">
+                Upload File
+              </span>
+              <input id="file-input" type="file" name="file-input" class="upload-box" placeholder="Upload File" multiple>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-start" id="listImage">  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+    <div class="col-sm-4 d-flex ms-auto">
+      <button class=" ms-auto w-10 btn btn-primary btn-lg align-self-end" type="submit">Tạo mới</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+  <script language="JavaScript">
+    document.querySelector("#product-collapse").classList = "collapse show"
+    document.querySelector('button[data-bs-target="#product-collapse"]').classList = "btn btn-toggle align-items-center rounded collapsed activeNav"
+
+
+    const forms = document.querySelectorAll('.needs-validation')
+
+    const multipelFileInput = document.querySelector('#file-input')
+  
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault()
+
+          if (form.checkValidity()) {
+
+              const formData = new FormData(this)
+
+              formData.delete("file-input");
+
+              const baseImage = formData.get("baseImage")
+
+              formData.append("productMedia", baseImage)
+
+              formData.delete("baseImage");
+
+              imageList.map(el => formData.append("productMedia", el))
+            
+              event.preventDefault();
+              $.ajax({
+                  url: "/product/new.html",
+                  type: "POST",
+                  processData: false,
+                  contentType: false,
+                  cache: false,
+                  data: formData,
+                  success: function (d) {
+                      console.log(d)
+                  }
+              })
+          }
+
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+
+    let imageList = []
+
+    const baseImage = document.querySelector('#baseImage');
+    const preview = document.querySelector('#listImage');
+    const baseImagePreview = document.querySelector('#baseImagePreview');
+
+    const pushImage = (image) => {
+        if(imageList.find(el => el.name === image.name)) return;
+
+        imageList.push(image)
+    }
+
+
+    function readAndPreview(file, idx) {
+        // Make sure `file.name` matches our extensions criteria
+        if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+          return alert(file.name + " không phải hình");
+        } // else...
+
+        const findDuplicateImage = imageList.find(img => img.name === file.name)
+
+        if(findDuplicateImage) return alert(file.name + " đã được chọn");
+
+        pushImage(file)
+
+        const reader = new FileReader();
+        
+        reader.addEventListener("load", function() {
+          const image = new Image();
+          image.height = 124;
+          image.title  = file.name;
+          image.src    = this.result;
+          image.alt    = file.name;
+          image.classList= 'image-thumbnail'
+
+          const imageBox = document.createElement("div");
+          imageBox.classList = "imageBox"
+
+          const removeIcon = document.createElement("button");
+          removeIcon.classList= "btn-close removeImage";
+          removeIcon.type= "button";
+          removeIcon.name= image.title;
+          removeIcon.onclick = (event) =>  deleteImageOfList(event ,idx);
+          
+
+          imageBox.appendChild(image)
+          imageBox.appendChild(removeIcon)
+
+          preview.appendChild(imageBox);
+        });
+        
+        reader.readAsDataURL(file);
+        
+      }
+
+    function previewImages() {
+
+      if (this.files) {
+        [].forEach.call(this.files, readAndPreview);
+      }
+    }
+
+    function previewBaseImage() {
+      if (this.files) {
+
+        const file = this.files[0]
+                // Make sure `file.name` matches our extensions criteria
+        if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+          return alert(file.name + " không phải hình");
+        } // else...
+        
+        const reader = new FileReader();
+        
+        reader.addEventListener("load", function() {
+          const image = new Image();
+          image.height = 124;
+          image.title  = file.name;
+          image.src    = this.result;
+          image.alt    = file.name;
+          image.classList= 'image-thumbnail'
+
+          baseImagePreview.innerHTML ="";
+
+          const imageBox = document.createElement("div");
+          imageBox.classList = "imageBox"
+
+          const removeIcon = document.createElement("button");
+          removeIcon.classList= "btn-close removeImage";
+          removeIcon.type= "button";
+          removeIcon.name= image.title;
+          removeIcon.onclick = deleteBaseImage;
+          
+
+          imageBox.appendChild(image)
+          imageBox.appendChild(removeIcon)
+
+          baseImagePreview.appendChild(imageBox);
+        });
+        
+        reader.readAsDataURL(file);
+      }
+    }
+
+      function deleteImageOfList(event , index) {
+        imageList = imageList.filter(el => el.name !== event.target.name)
+
+        multipelFileInput.value =""
+        event.target.parentElement.remove()
+
+        console.log(multipelFileInput.files)
+      }
+
+      function deleteBaseImage(event , index) {
+        baseImage.value =""
+        event.target.parentElement.remove()
+      }
+
+    multipelFileInput.addEventListener("change", previewImages);
+    document.querySelector('#baseImage').addEventListener("change", previewBaseImage);
+
+
+  </script>
+{% endblock %}
+
