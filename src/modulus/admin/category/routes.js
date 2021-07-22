@@ -99,7 +99,7 @@ router.get('/category/:id/delete.html', isLoggedIn, async function (req, res) {
 
       await category.remove()
 
-      res.send({ succsess_del_category: 'Nhà cung cấp đã tồn tại!' }).redirect(200, '/category/list.html')
+      res.redirect(200, '/category/list.html')
     }
   } catch (error) {
     res.send({ error: 'Xóa thất bại' }).redirect(400, '/category/list.html')

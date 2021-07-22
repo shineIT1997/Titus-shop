@@ -6,18 +6,36 @@
     width: 200px;
     height: 200px;
     margin: 16px;
-    border: solid 1px green;
+    border: solid 1px gray;
+  }
+
+  img:hover {
+    border: solid 2px green;
+    cursor: pointer;
   }
 </style>
 {% endblock %}
 
 {% block content %}
     {% for urlImage in urlList %}
-      <img src={{"/upload/" + urlImage}} alt="">
+      <img onclick="handleClickImage(event)" src={{"/upload/" + urlImage}} alt="">
     {% else %}
       <tr>
         <td class="text-center" colspan="4">Danh sách rỗng</td>
       </tr>
     {% endfor %}
 
+{% endblock %}
+
+{% block footer %}
+  <script language="JavaScript">
+    const handleClickImage =(event) => {
+      const url = new URL(window.location.href);
+      const CKEditorFuncNum = url.searchParams.get("CKEditorFuncNum");
+      const src = event.target.src
+
+      window.opener.CKEDITOR.tools.callFunction(`${CKEditorFuncNum}`, src)
+      window.close()
+    }
+  </script>
 {% endblock %}

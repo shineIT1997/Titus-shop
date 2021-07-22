@@ -101,7 +101,7 @@ router.get('/supplier/:id/delete.html', isLoggedIn, async function (req, res) {
 
       await supplier.remove()
 
-      res.redirect('/supplier/list.html').send({ succsess_del_supplier: 'Nhà cung cấp đã tồn tại!' })
+      res.redirect(200, '/supplier/list.html')
     }
   } catch (error) {
 

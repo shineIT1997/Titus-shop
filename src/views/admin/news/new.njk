@@ -90,7 +90,7 @@
     {% endif %}
 
 
-<div class="row" style="padding: 0px 16px">
+<div class="row" style="padding: 16px">
     <div class="col-md-12 px-20">
       <h5 class="mb-3">Thông tin cơ bản</h5>
       <form id="formProduct" action="/news/new.html" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
@@ -132,6 +132,26 @@
               Nội dung không hợp lệ
             </div>
           </div>
+
+            <hr class="my-4">
+            <div class="row g-3">  
+              <h5 class="my-3">Thông tin SEO</h5>
+            </div>
+
+              <div class="col-sm-12 mt-3">
+                <label for="metaTitle" class="form-label">Tiêu đề meta</label>
+                <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="" value="">
+              </div>
+
+              <div class="col-sm-12 mt-3">
+                <label for="metaKeywords" class="form-label">Meta Keywords</label>
+                <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="" value="">
+              </div>
+
+              <div class="col-sm-12 mt-3">
+                <label for="metaDescription" class="form-label">Mô tả Meta</label>
+                <textarea row="5" class="form-control" id="metaDescription" name="metaDescription"></textarea>
+              </div>
           
           <hr class="my-4">
           <div class="col-sm-4 d-flex ms-auto">
@@ -153,7 +173,7 @@
 
     CKEDITOR.replace( document.querySelector( '#content' ), {
         extraPlugin: "filebrowser",
-        filebrowserBrowseUrl: "/list",
+        filebrowserBrowseUrl: "/list/news",
         filebrowserUploadMethod: "form",
         filebrowserUploadUrl: "/news/upload"
       } )

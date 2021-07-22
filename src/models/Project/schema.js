@@ -41,7 +41,7 @@ let schema = new Schema({
 })
 
 const options = {
-  collection: 'new',
+  collection: 'project',
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true }

@@ -52,7 +52,7 @@ const startServer = async() => {
   app.use(express.urlencoded({ extended: false }))
   app.use(cookieParser())
   app.use(express.static(path.join(rootDirectory, 'public')))
-  app.use('/upload', express.static(path.join(rootDirectory, 'public/upload')))
+  app.use('/upload', express.static(path.join(rootDirectory, 'public/upload/')))
   app.use('/css', express.static(path.join(rootDirectory, 'node_modules/bootstrap/dist/css')))
   app.use('/css', express.static(path.join(rootDirectory, 'node_modules/bootstrap/dist/css')))
   app.use('/js', express.static(path.join(rootDirectory, 'node_modules/bootstrap/dist/js')))

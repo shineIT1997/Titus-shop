@@ -100,7 +100,7 @@ router.get('/manner/:id/delete.html', isLoggedIn, async function (req, res) {
 
       await manner.remove()
 
-      res.redirect('/manner/list.html')
+      res.redirect(200, '/manner/list.html')
     }
   } catch (error) {
 

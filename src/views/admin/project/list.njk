@@ -1,0 +1,68 @@
+{% extends  'layout.njk' %}
+
+{% block sidebar %}
+  {% include 'partials/sidebar/sidebar.njk' %}
+{% endblock %}
+
+{% block style %}
+  <style>
+    .mannerImage {
+      height: 60px;
+    }
+
+    td {
+      vertical-align: baseline;
+      padding: 8px 0 !important;
+    }
+
+    img {
+      height: 150px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Danh sách nhà cung cấp</h1>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Tiêu đề</th>
+          <th scope="col">slug</th>
+          <th scope="col">banner</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for project in projectData %}
+          <tr>
+            <td>{{project.title}}</td>
+            <td>{{project.slug}}</td>
+            <td>
+              <img class="projectImage" src="{{project.imagePath}}">
+            </td>
+            <td>
+              <a style="color: red;" href={{"/projects/" + project._id + "/delete.html"}}>Xoá</a> | 
+              <a href={{"/projects/" + project._id + "/update.html"}}>Sửa</a>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td class="text-center" colspan="4">Danh sách rỗng</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <script language="JavaScript">
+    document.querySelector("#projects-collapse").classList = "collapse show"
+    document.querySelector('button[data-bs-target="#projects-collapse"]').classList = "btn btn-toggle align-items-center rounded collapsed activeNav"
+    
+  </script>
+{% endblock %}

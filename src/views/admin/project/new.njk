@@ -62,21 +62,16 @@
 
   .removeImage {
     position: absolute;
-    color: red;
     top: 0;
     right: 0;
-  }
-
-  img {
-    height: 200px;
   }
 </style>
 {% endblock %}
 
 
 {% block content %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h1 class="h2">Cập nhật phong cách : {{manner.name}}</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Thêm dự án</h1>
 </div>
     {% if success %}
       <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -95,30 +90,19 @@
     {% endif %}
 
 
-<div class="row" style="padding: 0px 16px">
-    <div class="col-md-7 col-lg-8 px-20">
+<div class="row" style="padding: 16px">
+    <div class="col-md-12 px-20">
       <h5 class="mb-3">Thông tin cơ bản</h5>
-      <form id="formProduct" action={{"/manner/" + manner._id + "/update.html"}} method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+      <form id="formProduct" action="/projects/new.html" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         <div class="row g-3">          
-          <div class="col-sm-6">
-            <label for="id" class="form-label">
-              Mã phong cách 
+          <div class="col-sm-12">
+            <label for="title" class="form-label">
+              Tên dự án
               <span class="text-danger">(bắc buộc)</span>
             </label>
-            <input type="text" class="form-control" id="id" name="id" placeholder="" value="{{manner.mannerId}} "required="">
+            <input type="text" class="form-control" id="title" name="title" placeholder="" value="" required="">
             <div class="invalid-feedback">
-              Mã phong cách không hợp lệ
-            </div>
-          </div>
-
-          <div class="col-sm-6">
-            <label for="name" class="form-label">
-              Tên phong cách
-              <span class="text-danger">(bắc buộc)</span>
-            </label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="" value="{{manner.name}} "required="">
-            <div class="invalid-feedback">
-              Tên phong cách không hợp lệ
+              Tên không hợp lệ
             </div>
           </div>
 
@@ -131,20 +115,47 @@
               <span class="label">
                 Upload file
               </span>
-              <input id="baseImage" type="file" name="baseImage" class="upload-box" placeholder="Upload File">
+              <input required id="baseImage" type="file" name="baseImage" class="upload-box" placeholder="Upload File">
             </div>
 
             <div class="d-flex flex-wrap justify-content-start" id="baseImagePreview">  
-              <div class="imageBox">
-                <button type="button" onclick="deleteBaseImage(event)" class="btn-close removeImage" ></button>
-                <img src={{"/upload/manner/" + manner.imagePath}} alt="">
-              </div>
             </div>
           </div>
+
+          <div class="col-sm-12">
+            <label for="name" class="form-label">
+              Nội dung
+              <span class="text-danger">(bắc buộc)</span>
+            </label>
+            <textarea type="text" class="form-control" id="content" name="content" placeholder="" value="" required=""></textarea>
+            <div class="invalid-feedback">
+              Nội dung không hợp lệ
+            </div>
+          </div>
+
+            <hr class="my-4">
+            <div class="row g-3">  
+              <h5 class="my-3">Thông tin SEO</h5>
+            </div>
+
+              <div class="col-sm-12 mt-3">
+                <label for="metaTitle" class="form-label">Tiêu đề meta</label>
+                <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="" value="">
+              </div>
+
+              <div class="col-sm-12 mt-3">
+                <label for="metaKeywords" class="form-label">Meta Keywords</label>
+                <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="" value="">
+              </div>
+
+              <div class="col-sm-12 mt-3">
+                <label for="metaDescription" class="form-label">Mô tả Meta</label>
+                <textarea row="5" class="form-control" id="metaDescription" name="metaDescription"></textarea>
+              </div>
           
           <hr class="my-4">
           <div class="col-sm-4 d-flex ms-auto">
-            <button class=" ms-auto w-10 btn btn-primary btn-lg align-self-end" type="submit">Cập nhật</button>
+            <button class=" ms-auto w-10 btn btn-primary btn-lg align-self-end" type="submit">Tạo mới</button>
           </div>
 
       </form>
@@ -154,15 +165,24 @@
 
 {% block footer %}
   <script language="JavaScript">
-    document.querySelector("#style-collapse").classList = "collapse show"
-    document.querySelector('button[data-bs-target="#style-collapse"]').classList = "btn btn-toggle align-items-center rounded collapsed activeNav"
+    document.querySelector("#projects-collapse").classList = "collapse show"
+    document.querySelector('button[data-bs-target="#projects-collapse"]').classList = "btn btn-toggle align-items-center rounded collapsed activeNav"
+    
+    const baseImage = document.querySelector('#baseImage');
+    const baseImagePreview = document.querySelector('#baseImagePreview');
 
+    CKEDITOR.replace( document.querySelector( '#content' ), {
+        extraPlugin: "filebrowser",
+        filebrowserBrowseUrl: "/list/project",
+        filebrowserUploadMethod: "form",
+        filebrowserUploadUrl: "/news/upload"
+      } )
 
-  const forms = document.querySelectorAll('.needs-validation')
-  
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
+    const forms = document.querySelectorAll('.needs-validation')
+    
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
         if (!form.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
@@ -171,10 +191,6 @@
         form.classList.add('was-validated')
       }, false)
     })
-
-    const baseImage = document.querySelector('#baseImage');
-
-    const baseImagePreview = document.querySelector('#baseImagePreview');
 
     function previewBaseImage() {
       if (this.files) {
@@ -214,13 +230,12 @@
       }
     }
 
-      function deleteBaseImage(event) {
-        baseImage.value = ""
+      function deleteBaseImage(event , index) {
+        baseImage.value =""
         event.target.parentElement.remove()
       }
 
-    baseImage.addEventListener("change", previewBaseImage);
-
+    document.querySelector('#baseImage').addEventListener("change", previewBaseImage);
 
   </script>
 {% endblock %}

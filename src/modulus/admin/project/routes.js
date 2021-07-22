@@ -13,13 +13,13 @@ const multer = require('multer')
 const path = require('path')
 const imageUtil = require('@/utils/image')
 
-const NewModel = require('@/models/New')
+const ProjectModel = require('@/models/Project')
 const { isLoggedIn } = require('@/middlewares/auth')
 
 // setting path and name of file for upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/upload/news') // path of file
+    cb(null, './public/upload/project') // path of file
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '_' + file.originalname) // name of file
@@ -36,12 +36,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 // add new Product
-router.post('/news/upload', isLoggedIn, upload.single('upload'), async function (req, res) {
+router.post('/projects/upload', isLoggedIn, upload.single('upload'), async function (req, res) {
   try {
     const image = await imageUtil.resize(req.file.path, { replace: true })
 
     let fileName = image.filename
-    let url = '/upload/news/' + fileName
+    let url = '/upload/project/' + fileName
     let msg = 'Upload successfully'
     let funcNum = req.query.CKEditorFuncNum
 
@@ -57,32 +57,32 @@ router.post('/news/upload', isLoggedIn, upload.single('upload'), async function 
   }
 })
 
-router.get('/news/list.html', isLoggedIn, async function (req, res) {
+router.get('/projects/list.html', isLoggedIn, async function (req, res) {
   try {
-    const newsList = await NewModel.find()
+    const newsList = await ProjectModel.find()
 
-    const newsData = newsList.map(el => {
-      el.imagePath = '/upload/news/' + el.imagePath
+    const projectData = newsList.map(el => {
+      el.imagePath = '/upload/project/' + el.imagePath
       return el
     })
 
-    res.render('admin/news/list', { errors: null, newsData, layout: false })
+    res.render('admin/project/list', { errors: null, projectData, layout: false })
   } catch (error) {
-    res.render('admin/news/list', { errors: [error.message] })
+    res.render('admin/project/list', { errors: [error.message] })
   }
 })
 
-router.get('/news/new.html', isLoggedIn, function (req, res) {
-  res.render('admin/news/new')
+router.get('/projects/new.html', isLoggedIn, function (req, res) {
+  res.render('admin/project/new')
 })
 
-router.post('/news/new.html', isLoggedIn, upload.single('baseImage'), async function (req, res) {
+router.post('/projects/new.html', isLoggedIn, upload.single('baseImage'), async function (req, res) {
   try {
     const image = await imageUtil.resize(req.file.path, { replace: true })
 
-    const slug = await NewModel.generateSlug(req.body.title)
+    const slug = await ProjectModel.generateSlug(req.body.title)
 
-    const aNew = await NewModel({
+    const aNew = await ProjectModel({
       title: req.body.title,
       slug,
       imagePath: image.filename,
@@ -94,19 +94,19 @@ router.post('/news/new.html', isLoggedIn, upload.single('baseImage'), async func
 
     await aNew.save()
 
-    res.render('admin/news/new', { success: 'Tạo mới thành công' })
+    res.render('admin/project/new', { success: 'Tạo mới thành công' })
   } catch (error) {
-    res.render('admin/news/new', { errors: [error.message] })
+    res.render('admin/project/new', { errors: [error.message] })
   }
 })
 
 // delete item
-router.get('/news/:id/delete.html', isLoggedIn, async function (req, res) {
+router.get('/projects/:id/delete.html', isLoggedIn, async function (req, res) {
   try {
-    const news = await NewModel.findById(req.params.id)
+    const news = await ProjectModel.findById(req.params.id)
 
     if (news) {
-      const pathImg = './public/upload/news/' + news.imagePath
+      const pathImg = './public/upload/project/' + news.imagePath
 
       fs.unlink(pathImg, function(e) {
         if (e) throw e
@@ -114,23 +114,23 @@ router.get('/news/:id/delete.html', isLoggedIn, async function (req, res) {
 
       await news.remove()
 
-      res.redirect(200, '/news/list.html')
+      res.redirect(200, '/projects/list.html')
     }
   } catch (error) {
 
   }
 })
 
-router.get('/news/:id/update.html', isLoggedIn, async function (req, res) {
+router.get('/projects/:id/update.html', isLoggedIn, async function (req, res) {
   try {
-    const news = await NewModel.findById(req.params.id)
-    res.render('admin/news/update', { news })
+    const project = await ProjectModel.findById(req.params.id)
+    res.render('admin/project/update', { project })
   } catch (error) {
     res.render('notFound')
   }
 })
 
-router.post('/news/:id/update.html', isLoggedIn, upload.single('baseImage'), async function (req, res) {
+router.post('/projects/:id/update.html', isLoggedIn, upload.single('baseImage'), async function (req, res) {
   try {
     req.checkBody('title', 'Title không được trống').isString().notEmpty()
     const errors = req.validationErrors()
@@ -139,15 +139,15 @@ router.post('/news/:id/update.html', isLoggedIn, upload.single('baseImage'), asy
 
     if (errors) {
       if (req.file) {
-        const file = './public/upload/news/' + req.file.filename
+        const file = './public/upload/project/' + req.file.filename
 
         fs.unlink(file, function (e) {
           if (e) throw e
         })
       }
-      res.render('admin/news/update', { errors: errors })
+      res.render('admin/project/update', { errors: errors })
     } else {
-      const slug = await NewModel.generateSlug(req.body.title)
+      const slug = await ProjectModel.generateSlug(req.body.title)
 
       const payload = {
         title: body.title,
@@ -163,16 +163,16 @@ router.post('/news/:id/update.html', isLoggedIn, upload.single('baseImage'), asy
         payload.imagePath = image.filename
       }
 
-      await NewModel.updateOne({ _id: req.params.id }, {
+      await ProjectModel.updateOne({ _id: req.params.id }, {
         $set: payload
       })
 
-      const news = await NewModel.findById(req.params.id)
+      const project = await ProjectModel.findById(req.params.id)
 
-      res.render('admin/news/update', { success: 'Cập nhật thành công', news })
+      res.render('admin/project/update', { success: 'Cập nhật thành công', project })
     }
   } catch (error) {
-    res.render('admin/news/update', { errors: [error.message] })
+    res.render('admin/project/update', { errors: [error.message] })
   }
 })
 

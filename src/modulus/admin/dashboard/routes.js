@@ -44,8 +44,8 @@ router.get('/logout', isLoggedIn, function(req, res, next) {
   res.redirect('/login')
 })
 
-router.get('/list', isLoggedIn, function(req, res, next) {
-  glob(path.join(rootDirectory, 'public/upload/*/*'), function (er, files) {
+router.get('/list/:folder', isLoggedIn, function(req, res, next) {
+  glob(path.join(rootDirectory, `public/upload/${req.params.folder}/*`), function (er, files) {
     const urlList = files.map(file => {
       return file.split('/').slice(-2).join('/')
     })

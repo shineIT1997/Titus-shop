@@ -104,7 +104,7 @@
               Mã dòng 
               <span class="text-danger">(bắc buộc)</span>
             </label>
-            <input type="text" class="form-control" id="id" name="id" placeholder="" value={{category.cateId}} required="">
+            <input type="text" class="form-control" id="id" name="id" placeholder="" value="{{category.cateId}}" required="">
             <div class="invalid-feedback">
               Mã dòng không hợp lệ
             </div>
@@ -115,7 +115,7 @@
               Tên dòng
               <span class="text-danger">(bắc buộc)</span>
             </label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="" value={{category.name}} required="">
+            <input type="text" class="form-control" id="name" name="name" placeholder="" value="{{category.name}}" required="">
             <div class="invalid-feedback">
               Tên dòng không hợp lệ
             </div>
@@ -136,7 +136,7 @@
             <div class="d-flex flex-wrap justify-content-start" id="baseImagePreview"> 
               <div class="imageBox">
                 <button type="button" onclick="deleteBaseImage(event)" class="btn-close removeImage" ></button>
-                <img src={{"/upload/category/" + category.imagePath}} alt={{category.title}}>
+                <img src={{"/upload/category/" + category.imagePath}} alt="{{category.title}}">
               </div>
             </div>
           </div>
