@@ -55,7 +55,7 @@ router.post('/category/new.html', isLoggedIn, upload.single('baseImage'),
 
       const oldeCate = await Cate.findOne({ cateId: body.id })
 
-      if (oldeCate) return res.render('admin/category/new', { errors: ['Phong cách đã tồn tại!'] })
+      if (oldeCate) return res.render('admin/category/new', { errors: ['Dòng đã tồn tại!'] })
 
       const newCate = new Cate({
         imagePath: image.filename,

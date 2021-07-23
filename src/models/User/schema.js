@@ -49,7 +49,6 @@ const schema = {
     type: String,
     trim: true,
     sparse: true,
-    unique: true,
     validate: {
       validator: function(v) {
         return /^\d+$/.test(v)

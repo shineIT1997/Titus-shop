@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const { Schema } = require('mongoose')
 const { schema, options } = require('./schema')
 const mongoosePaginate = require('@/libs/mongoose-paginate')
+const mongooseSlug = require('@/libs/mongoose-slug')
 
 /**
   * Schemas
@@ -16,6 +17,7 @@ const ProductSchema = new Schema(schema, options)
 /**
   * Plugins
   */
+ProductSchema.plugin(mongooseSlug)
 ProductSchema.plugin(mongoosePaginate)
 
 module.exports = mongoose.model('product', ProductSchema)

@@ -2,11 +2,16 @@ let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
 let schema = new Schema({
-  title: {
+  productId: {
     type: String,
     trim: true,
     require: true,
     unique: true
+  },
+  title: {
+    type: String,
+    trim: true,
+    require: true
   },
   slug: {
     type: String,
@@ -15,11 +20,23 @@ let schema = new Schema({
     unique: true
   },
   imagePath: {
-    type: String,
+    type: Array,
     trim: true,
     require: true
   },
   description: {
+    type: String,
+    trim: true
+  },
+  metaTitle: {
+    type: String,
+    trim: true
+  },
+  metaKeywords: {
+    type: String,
+    trim: true
+  },
+  metaDescription: {
     type: String,
     trim: true
   },
@@ -28,19 +45,32 @@ let schema = new Schema({
     trim: true,
     require: true
   },
-  quantity: {
+  suplierID: {
+    type: String,
+    ref: 'supplier',
+    required: 'Please enter UserID',
+    require: true
+  },
+  cateId: [
+    {
+      type: String,
+      ref: 'cate',
+      required: 'Please enter UserID'
+    }
+  ],
+  mannerId: [
+    {
+      type: String,
+      ref: 'manner',
+      required: 'Please enter UserID'
+    }
+  ],
+  qty: {
     type: Number,
     trim: true,
     require: true
-  },
-  style: [{
-    type: Schema.Types.ObjectId,
-    ref: 'style'
-  }],
-  type: [{
-    type: Schema.Types.ObjectId,
-    ref: 'cate'
-  }]
+  }
+
 })
 
 const options = {

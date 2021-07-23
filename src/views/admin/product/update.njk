@@ -110,7 +110,7 @@
           <div class="row g-3">          
               <div class="col-sm-6">
                 <label for="id" class="form-label">Mã sản phẩm <span class="text-danger">(bắc buộc)</span></label>
-                <input type="text" class="form-control" id="id" name="id" placeholder="" value="" required="">
+                <input type="text" class="form-control" id="id" name="id" placeholder="" value="{{product.productId}}" required="">
                 <div class="invalid-feedback">
                   Mã sản phẩm không hợp lệ
                 </div>
@@ -118,7 +118,7 @@
 
               <div class="col-sm-6">
                 <label for="name" class="form-label">Tên sản phẩm <span class="text-danger">(bắc buộc)</span></label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="" value="" required="">
+                <input type="text" class="form-control" id="name" name="name" placeholder="" value="{{product.title}}" required="">
                 <div class="invalid-feedback">
                   Tên sản phẩm không hợp lệ
                 </div>
@@ -126,7 +126,7 @@
 
               <div class="col-sm-4">
                 <label for="name" class="form-label">Giá: <span class="text-danger">(bắc buộc)</span></label>
-                <input type="number" class="form-control" id="price" name="price" placeholder="" value="" required="">
+                <input type="number" class="form-control" id="price" name="price" placeholder="" value="{{product.price}}" required="">
                 <div class="invalid-feedback">
                   Giá không hợp lệ
                 </div>
@@ -134,7 +134,7 @@
 
               <div class="col-sm-4">
                 <label for="name" class="form-label">Số lượng: <span class="text-danger">(bắc buộc)</span></label>
-                <input type="text" class="form-control" id="qty" name="qty" placeholder="" value="" required="">
+                <input type="text" class="form-control" id="qty" name="qty" placeholder="" value="{{product.qty}}" required="">
                 <div class="invalid-feedback">
                   Số lượng không hợp lệ
                 </div>
@@ -186,7 +186,7 @@
 
               <div class="col-sm-12">
                 <label for="description" class="form-label">Mô tả sản phẩm</label>
-                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                <textarea value="{{product.description}}" class="form-control" id="description" name="description" rows="3"></textarea>
               </div>
             </div>
 
@@ -197,17 +197,17 @@
 
               <div class="col-sm-12 mt-3">
                 <label for="metaTitle" class="form-label">Tiêu đề meta</label>
-                <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="" value="">
+                <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="" value="{{product.metaTitle}}">
               </div>
 
               <div class="col-sm-12 mt-3">
                 <label for="metaKeywords" class="form-label">Meta Keywords</label>
-                <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="" value="">
+                <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="" value="{{product.metaKeywords}}">
               </div>
 
               <div class="col-sm-12 mt-3">
                 <label for="metaDescription" class="form-label">Mô tả Meta</label>
-                <textarea row="5" class="form-control" id="metaDescription" name="metaDescription"></textarea>
+                <textarea row="5" class="form-control" id="metaDescription" value="{{product.metaDescription}}" name="metaDescription"></textarea>
               </div>
         </div>
 
