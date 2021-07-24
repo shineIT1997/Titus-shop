@@ -1,1 +1,4 @@
 NODE_ENV=development
+
+
+MONGOBD_CONFIG_URI=mongodb://127.0.0.1/Titus
