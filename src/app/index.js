@@ -155,19 +155,6 @@ const startServer = async() => {
 
   await server.listen(port)
 
-  const user = new User({
-    email: 'admin@email.com',
-    firstname: 'Dinh Thanh',
-    lastname: 'Dat',
-    address: 'nguyeenx',
-    city: 'test',
-    roles: 'ADMIN',
-    phone: '0896214203',
-    password: '12345678'
-  })
-
-  await user.save()
-
   // server.on('error', onError)
   // server.on('listening', onListening)
 

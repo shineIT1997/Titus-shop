@@ -70,6 +70,9 @@
     padding: 8px 8px;
     border-bottom: 1px solid #d2d2d2;
   }
+  img {
+    height: 200px;
+  }
 </style>
 {% endblock %}
 
@@ -101,13 +104,11 @@
       class="needs-validation" 
       novalidate="" 
       id="formProduct" 
-      action="/product/new.html" 
-      method="post" 
       enctype="multipart/form-data">
       <div class="row g-3">  
       <h5 class="mb-3">Thông tin cơ bản</h5>
-      <div class="col-md-6 col-lg-8 px-20">
-          <div class="row g-3">          
+      <div class="col-md-6 col-lg-8 my-0">
+          <div class="row g-3 m-1 px-1 py-3 bg-light border rounded-3">          
               <div class="col-sm-6">
                 <label for="id" class="form-label">Mã sản phẩm <span class="text-danger">(bắc buộc)</span></label>
                 <input type="text" class="form-control" id="id" name="id" placeholder="" value="{{product.productId}}" required="">
@@ -142,8 +143,8 @@
 
 
             <div class="col-4">
-              <label for="suplier" class="form-label">Nhà cung cấp  <span class="text-danger">(bắc buộc)</span></label>
-              <select id="suplier" name="suplier" class="form-select" aria-label="Default select example">
+              <label for="supplier" class="form-label">Nhà cung cấp  <span class="text-danger">(bắc buộc)</span></label>
+              <select id="supplier" name="supplier" class="form-select" aria-label="Default select example">
                 <option selected value="">Open this select menu</option>
                 {% for supplier in supplierList %}
                   <option value={{supplier._id}}>{{supplier.name}}</option>
@@ -191,7 +192,7 @@
             </div>
 
             <hr class="my-4">
-            <div class="row g-3">  
+            <div class="row g-3 py-3 px-1 g-3 bg-light border rounded-3">  
               <h5 class="my-3">Thông tin SEO</h5>
             </div>
 
@@ -212,32 +213,11 @@
         </div>
 
 
-      <div class="col-md-6 col-lg-4 px-20">
-        <div class="row g-3">
-          <div class="col-sm-12">
-            <label for="baseImage" class="form-label">Hình ảnh đại diện <span class="text-danger">(bắc buộc)</span></label>
-            <div class="button-wrapper">
-              <span class="label">
-                Upload File
-              </span>
-              <input 
-                required
-                id="baseImage" 
-                type="file" 
-                name="baseImage" 
-                class="upload-box form-label" 
-                placeholder="Upload File">
-            </div>
-
-            <div class="invalid-feedback">
-              Hinh ảnh đại diện không hợp lệ
-            </div>
-            <div class="d-flex flex-wrap justify-content-start" id="baseImagePreview">  
-            </div>
-          </div>
+      <div class="col-md-6 col-lg-4 m-0">
+        <div class="row g-3 m-1 py-3 px-1 g-3 bg-light border rounded-3">
 
           <div class="col-sm-12">
-            <label for="file-input" class="form-label">Hình ảnh bổ sung</label>
+            <label for="file-input" class="form-label">Hình ảnh bổ sung: </br> <span class="text-danger fs-6">(Ảnh đầu tiên sẽ là ảnh đại diện của sản phẩm)</span> </label>
             <div class="button-wrapper">
               <span class="label">
                 Upload File
@@ -246,6 +226,9 @@
             </div>
 
             <div class="d-flex flex-wrap justify-content-start" id="listImage">  
+              {% for path in product.imagePath %}
+                <img class="productImage" src="{{"/upload/products/" + path}}">
+              {% endfor %}
             </div>
           </div>
         </div>
@@ -254,9 +237,10 @@
 
     <hr class="my-4">
     <div class="col-sm-4 d-flex ms-auto">
-      <button class=" ms-auto w-10 btn btn-primary btn-lg align-self-end" type="submit">Tạo mới</button>
+      <button class=" ms-auto w-10 btn btn-primary btn-lg align-self-end" type="submit">Update</button>
     </div>
   </form>
+  
 </div>
 {% endblock %}
 
@@ -269,6 +253,16 @@
 
     const forms = document.querySelectorAll('.needs-validation')
 
+    const optionList = document.querySelectorAll('option')
+
+      const cateArr = "{{product.cateId}}".split(",")
+      const mannerArr = "{{product.mannerId}}".split(",")
+      const optionArray = [...cateArr, ...mannerArr, "{{product.supplierID}}"]
+
+    optionList.forEach(option => {
+      if(optionArray.includes(option.value)) option.selected = true
+    })
+
     const multipelFileInput = document.querySelector('#file-input')
   
     Array.prototype.slice.call(forms)
@@ -276,22 +270,16 @@
         form.addEventListener('submit', function (event) {
           event.preventDefault()
 
+          console.log(form.checkValidity())
+
           if (form.checkValidity()) {
 
               const formData = new FormData(this)
 
-              formData.delete("file-input");
-
-              const baseImage = formData.get("baseImage")
-
-              formData.append("productMedia", baseImage)
-
-              formData.delete("baseImage");
-
               imageList.map(el => formData.append("productMedia", el))
             
               $.ajax({
-                  url: "/product/new.html",
+                  url: "/product/{{product._id}}/update.html",
                   type: "POST",
                   processData: false,
                   contentType: false,
@@ -314,9 +302,9 @@
         }, false)
       })
 
+    
     let imageList = []
 
-    const baseImage = document.querySelector('#baseImage');
     const preview = document.querySelector('#listImage');
     const baseImagePreview = document.querySelector('#baseImagePreview');
 
@@ -372,48 +360,8 @@
     function previewImages() {
 
       if (this.files) {
+        if (imageList.length < 2)  preview.innerHTML ="";
         [].forEach.call(this.files, readAndPreview);
-      }
-    }
-
-    function previewBaseImage() {
-      if (this.files) {
-
-        const file = this.files[0]
-                // Make sure `file.name` matches our extensions criteria
-        if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
-          return alert(file.name + " không phải hình");
-        } // else...
-        
-        const reader = new FileReader();
-        
-        reader.addEventListener("load", function() {
-          const image = new Image();
-          image.height = 124;
-          image.title  = file.name;
-          image.src    = this.result;
-          image.alt    = file.name;
-          image.classList= 'image-thumbnail'
-
-          baseImagePreview.innerHTML ="";
-
-          const imageBox = document.createElement("div");
-          imageBox.classList = "imageBox"
-
-          const removeIcon = document.createElement("button");
-          removeIcon.classList= "btn-close removeImage";
-          removeIcon.type= "button";
-          removeIcon.name= image.title;
-          removeIcon.onclick = deleteBaseImage;
-          
-
-          imageBox.appendChild(image)
-          imageBox.appendChild(removeIcon)
-
-          baseImagePreview.appendChild(imageBox);
-        });
-        
-        reader.readAsDataURL(file);
       }
     }
 
@@ -424,13 +372,8 @@
         event.target.parentElement.remove()
       }
 
-      function deleteBaseImage(event , index) {
-        baseImage.value =""
-        event.target.parentElement.remove()
-      }
 
     multipelFileInput.addEventListener("change", previewImages);
-    document.querySelector('#baseImage').addEventListener("change", previewBaseImage);
 
 
   </script>

@@ -96,7 +96,7 @@
     {% endif %}
 
 
-<div class="row" style="padding: 0px 16px 32px">
+<div class="row justify-content-center" style="padding: 0px 16px 32px">
   <form 
       class="needs-validation" 
       novalidate="" 
@@ -106,8 +106,8 @@
       enctype="multipart/form-data">
       <div class="row g-3">  
       <h5 class="mb-3">Thông tin cơ bản</h5>
-      <div class="col-md-6 col-lg-8 px-20">
-          <div class="row g-3">          
+      <div class="col-md-6 col-lg-8  ">
+          <div class="row g-3 m-1 px-1 py-3 bg-light border rounded-3">          
               <div class="col-sm-6">
                 <label for="id" class="form-label">Mã sản phẩm <span class="text-danger">(bắc buộc)</span></label>
                 <input type="text" class="form-control" id="id" name="id" placeholder="" value="" required="">
@@ -142,8 +142,8 @@
 
 
             <div class="col-4">
-              <label for="suplier" class="form-label">Nhà cung cấp  <span class="text-danger">(bắc buộc)</span></label>
-              <select id="suplier" name="suplier" class="form-select" aria-label="Default select example">
+              <label for="supplier" class="form-label">Nhà cung cấp  <span class="text-danger">(bắc buộc)</span></label>
+              <select id="supplier" name="supplier" class="form-select" aria-label="Default select example">
                 <option selected value="">Open this select menu</option>
                 {% for supplier in supplierList %}
                   <option value={{supplier._id}}>{{supplier.name}}</option>
@@ -191,10 +191,11 @@
             </div>
 
             <hr class="my-4">
-            <div class="row g-3">  
+            <div class="row g-3 ">  
               <h5 class="my-3">Thông tin SEO</h5>
             </div>
 
+            <div  class="row g-3 py-3 px-1 g-3 bg-light border rounded-3"> 
               <div class="col-sm-12 mt-3">
                 <label for="metaTitle" class="form-label">Tiêu đề meta</label>
                 <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="" value="">
@@ -209,11 +210,12 @@
                 <label for="metaDescription" class="form-label">Mô tả Meta</label>
                 <textarea row="5" class="form-control" id="metaDescription" name="metaDescription"></textarea>
               </div>
+              </div>
         </div>
 
 
-      <div class="col-md-6 col-lg-4 px-20">
-        <div class="row g-3">
+      <div class="col-md-6 col-lg-4  ">
+        <div class="row m-1 px-1 py-3 g-3 bg-light border rounded-3">
           <div class="col-sm-12">
             <label for="baseImage" class="form-label">Hình ảnh đại diện <span class="text-danger">(bắc buộc)</span></label>
             <div class="button-wrapper">

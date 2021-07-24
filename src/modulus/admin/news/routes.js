@@ -108,16 +108,18 @@ router.get('/news/:id/delete.html', isLoggedIn, async function (req, res) {
     if (news) {
       const pathImg = './public/upload/news/' + news.imagePath
 
-      fs.unlink(pathImg, function(e) {
-        if (e) throw e
-      })
+      if (fs.existsSync(pathImg)) {
+        fs.unlink(pathImg, function(e) {
+          if (e) throw e
+        })
+      }
 
       await news.remove()
 
       res.redirect(200, '/news/list.html')
     }
   } catch (error) {
-
+    res.redirect(400, '/news/list.html')
   }
 })
 

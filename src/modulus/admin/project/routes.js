@@ -62,7 +62,7 @@ router.get('/projects/list.html', isLoggedIn, async function (req, res) {
     const newsList = await ProjectModel.find()
 
     const projectData = newsList.map(el => {
-      el.imagePath = '/upload/project/' + el.imagePath
+      el.imagePath = el.imagePath.map(path => '/upload/project/' + path)
       return el
     })
 
@@ -108,16 +108,18 @@ router.get('/projects/:id/delete.html', isLoggedIn, async function (req, res) {
     if (news) {
       const pathImg = './public/upload/project/' + news.imagePath
 
-      fs.unlink(pathImg, function(e) {
-        if (e) throw e
-      })
+      if (fs.existsSync(pathImg)) {
+        fs.unlink(pathImg, function(e) {
+          if (e) throw e
+        })
+      }
 
       await news.remove()
 
       res.redirect(200, '/projects/list.html')
     }
   } catch (error) {
-
+    res.redirect(400, '/projects/list.html')
   }
 })
 

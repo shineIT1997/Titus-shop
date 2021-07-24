@@ -45,7 +45,7 @@ let schema = new Schema({
     trim: true,
     require: true
   },
-  suplierID: {
+  supplierID: {
     type: String,
     ref: 'supplier',
     required: 'Please enter UserID',

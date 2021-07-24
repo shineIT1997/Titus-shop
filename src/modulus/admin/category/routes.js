@@ -93,9 +93,11 @@ router.get('/category/:id/delete.html', isLoggedIn, async function (req, res) {
     if (category) {
       const pathImg = CATEGORY_IMAGE_FOLDER + '/' + category.imagePath
 
-      fs.unlink(pathImg, function(e) {
-        if (e) throw e
-      })
+      if (fs.existsSync(pathImg)) {
+        fs.unlink(pathImg, function(e) {
+          if (e) throw e
+        })
+      }
 
       await category.remove()
 

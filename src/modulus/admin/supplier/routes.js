@@ -95,16 +95,18 @@ router.get('/supplier/:id/delete.html', isLoggedIn, async function (req, res) {
     if (supplier) {
       const pathImg = SUPPLIER_FOLDER + '/' + supplier.imagePath
 
-      fs.unlink(pathImg, function(e) {
-        if (e) throw e
-      })
+      if (fs.existsSync(pathImg)) {
+        fs.unlink(pathImg, function(e) {
+          if (e) throw e
+        })
+      }
 
       await supplier.remove()
 
       res.redirect(200, '/supplier/list.html')
     }
   } catch (error) {
-
+    res.redirect(400, '/supplier/list.html')
   }
 })
 

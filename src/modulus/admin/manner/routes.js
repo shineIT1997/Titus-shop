@@ -94,16 +94,18 @@ router.get('/manner/:id/delete.html', isLoggedIn, async function (req, res) {
     if (manner) {
       const pathImg = MANNER_IMAGE_FOLDER + '/' + manner.imagePath
 
-      fs.unlink(pathImg, function(e) {
-        if (e) throw e
-      })
+      if (fs.existsSync(pathImg)) {
+        fs.unlink(pathImg, function(e) {
+          if (e) throw e
+        })
+      }
 
       await manner.remove()
 
       res.redirect(200, '/manner/list.html')
     }
   } catch (error) {
-
+    res.redirect(400, '/manner/list.html')
   }
 })
 
