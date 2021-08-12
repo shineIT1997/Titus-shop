@@ -11,23 +11,9 @@ const express = require('express')
 const router = express.Router()
 
 const {
-  loginController,
-  registerController,
-  testController
+  homeController
 } = require('./controller')
 
-/* POST register a acount. */
-router.post('/auth/register', registerController)
-
-/**
- * login
- */
-router.post('/auth/login', loginController)
-
-/**
- * test Api
- */
-
-router.post('/auth/test', testController)
+router.get('/home', homeController)
 
 module.exports = router
