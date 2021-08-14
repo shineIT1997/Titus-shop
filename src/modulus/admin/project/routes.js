@@ -62,11 +62,13 @@ router.get('/projects/list.html', isLoggedIn, async function (req, res) {
     const newsList = await ProjectModel.find()
 
     const projectData = newsList.map(el => {
-      el.imagePath = el.imagePath.map(path => '/upload/project/' + path)
+      el.imagePath = '/upload/project/' + el.imagePath
       return el
     })
 
-    res.render('admin/project/list', { errors: null, projectData, layout: false })
+    // console.log(`projectData : `, projectData)
+
+    res.render('admin/project/list', { projectData, layout: false })
   } catch (error) {
     res.render('admin/project/list', { errors: [error.message] })
   }

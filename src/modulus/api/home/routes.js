@@ -13,21 +13,15 @@ const router = express.Router()
 const {
   loginController,
   registerController,
-  testController
+  homeController
 } = require('./controller')
 
 /* POST register a acount. */
-router.post('/auth/register', registerController)
+router.post('/home', homeController)
 
 /**
  * login
  */
 router.post('/auth/login', loginController)
-
-/**
- * test Api
- */
-
-router.post('/auth/test', testController)
 
 module.exports = router

@@ -36,7 +36,7 @@
           <th scope="col">Mã nhà cung cấp</th>
           <th scope="col">Tên nhà cung cấp</th>
           <th scope="col">Hình ảnh đại diện</th>
-          <th scope="col">Header</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -48,7 +48,8 @@
               <img class="supplierImage" src={{supplier.imagePath}}>
             </td>
             <td>
-              <a style="color: red;" href={{"/supplier/" + supplier._id + "/delete.html"}}>Xoá</a> | 
+              <a style="color: red; " href={{"/supplier/" + supplier._id + "/delete.html"}}>Xoá</a>
+              <span style="margin: 0px 16px;">|</span>
               <a href={{"/supplier/" + supplier._id + "/update.html"}}>Sửa</a>
             </td>
           </tr>

@@ -18,7 +18,7 @@ const rootDirectory = fs.realpathSync(process.cwd())
 
 /* GET home page. */
 router.get('/', isLoggedIn, function (req, res, next) {
-  res.render('index', { title: 'Express', image: 'upload/supplier/1626539115035_image.png' })
+  res.render('index', { title: 'Titus Shop', image: 'upload/supplier/1626539115035_image.png' })
 })
 
 router.get('/login', notisLoggedIn, function(req, res, next) {

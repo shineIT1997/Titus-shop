@@ -172,7 +172,6 @@ router.get('/product/:id/update.html', isLoggedIn, upload.array('productMedia', 
   try {
     const product = await Product.findById(req.params.id)
 
-    console.log(`product : `, product)
     const cateList = await Cate.find()
     const mannerList = await Manner.find()
     const supplierList = await Supplier.find()
@@ -217,11 +216,9 @@ router.post('/product/:id/update.html', isLoggedIn, upload.array('productMedia',
           imagePath.push(file.filename)
         }
       }
-      const slug = await Product.generateSlug(req.body.name)
 
       const payload = {
         imagePath: imagePath.length ? imagePath : product.imagePath,
-        slug,
         title: req.body.name,
         productId: req.body.id,
         description: req.body.description,

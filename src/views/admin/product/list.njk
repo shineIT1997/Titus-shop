@@ -23,7 +23,7 @@
 
 {% block content %}
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Danh sách nhà cung cấp</h1>
+    <h1 class="h2">Danh sách Sản phẩm</h1>
   </div>
 
   <div class="table-responsive p-3 bg-light border rounded-3">
@@ -47,7 +47,8 @@
               {% endfor %}
             </td>
             <td>
-              <a style="color: red;" href={{"/product/" + product._id + "/delete.html"}}>Xoá</a> | 
+              <a style="color: red;" href={{"/product/" + product._id + "/delete.html"}}>Xoá</a> 
+              <span style="margin: 0px 16px;">|</span>
               <a href={{"/product/" + product._id + "/update.html"}}>Sửa</a>
             </td>
           </tr>

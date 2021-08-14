@@ -72,6 +72,9 @@
   }
   img {
     height: 200px;
+    object-fit: contain;
+    width: 300px;
+    margin: 8px;
   }
 </style>
 {% endblock %}
@@ -107,113 +110,116 @@
       enctype="multipart/form-data">
       <div class="row g-3">  
       <h5 class="mb-3">Thông tin cơ bản</h5>
-      <div class="col-md-6 col-lg-8 my-0">
-          <div class="row g-3 m-1 px-1 py-3 bg-light border rounded-3">          
-              <div class="col-sm-6">
-                <label for="id" class="form-label">Mã sản phẩm <span class="text-danger">(bắc buộc)</span></label>
-                <input type="text" class="form-control" id="id" name="id" placeholder="" value="{{product.productId}}" required="">
-                <div class="invalid-feedback">
-                  Mã sản phẩm không hợp lệ
-                </div>
-              </div>
-
-              <div class="col-sm-6">
-                <label for="name" class="form-label">Tên sản phẩm <span class="text-danger">(bắc buộc)</span></label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="" value="{{product.title}}" required="">
-                <div class="invalid-feedback">
-                  Tên sản phẩm không hợp lệ
-                </div>
-              </div>
-
-              <div class="col-sm-4">
-                <label for="name" class="form-label">Giá: <span class="text-danger">(bắc buộc)</span></label>
-                <input type="number" class="form-control" id="price" name="price" placeholder="" value="{{product.price}}" required="">
-                <div class="invalid-feedback">
-                  Giá không hợp lệ
-                </div>
-              </div>
-
-              <div class="col-sm-4">
-                <label for="name" class="form-label">Số lượng: <span class="text-danger">(bắc buộc)</span></label>
-                <input type="text" class="form-control" id="qty" name="qty" placeholder="" value="{{product.qty}}" required="">
-                <div class="invalid-feedback">
-                  Số lượng không hợp lệ
-                </div>
-              </div>
-
-
-            <div class="col-4">
-              <label for="supplier" class="form-label">Nhà cung cấp  <span class="text-danger">(bắc buộc)</span></label>
-              <select id="supplier" name="supplier" class="form-select" aria-label="Default select example">
-                <option selected value="">Open this select menu</option>
-                {% for supplier in supplierList %}
-                  <option value={{supplier._id}}>{{supplier.name}}</option>
-                {% else %}
-                  <li>This would display if the 'item' collection were empty</li>
-                {% endfor %}
-              </select>
-              <div class="invalid-feedback">
-                Hãy chọn nhà cung cấp
-              </div>
+      <div class="col-md-6 my-0">
+        <div class="row g-3 m-1 px-1 py-3 bg-light border rounded-3">          
+          <div class="col-sm-6">
+            <label for="id" class="form-label">Mã sản phẩm <span class="text-danger">(bắc buộc)</span></label>
+            <input type="text" class="form-control" id="id" name="id" placeholder="" value="{{product.productId}}" required="">
+            <div class="invalid-feedback">
+              Mã sản phẩm không hợp lệ
             </div>
+          </div>
 
-            <div class="col-12">
-              <label for="category" class="form-label">Dòng sản phẩm</label>
-              <select multiple id="category" name="category" class="form-select" aria-label="Default select example">
-                {% for category in cateList %}
-                  <option value={{category._id}}>{{category.name}}</option>
-                {% else %}
-                  <li>This would display if the 'item' collection were empty</li>
-                {% endfor %}
-              </select>
-              <div class="invalid-feedback">
-                Hãy chọn dòng sản phẩm
-              </div>
+          <div class="col-sm-6">
+            <label for="name" class="form-label">Tên sản phẩm <span class="text-danger">(bắc buộc)</span></label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="" value="{{product.title}}" required="">
+            <div class="invalid-feedback">
+              Tên sản phẩm không hợp lệ
             </div>
+          </div>
 
-            <div class="col-12">
-              <label for="manner" class="form-label">Phong cách</label>
-              <select multiple id="manner" name="manner" class="form-select" aria-label="Default select example">
-                {% for manner in mannerList %}
-                  <option value={{manner._id}}>{{manner.name}}</option>
-                {% else %}
-                  <li>This would display if the 'item' collection were empty</li>
-                {% endfor %}
-              </select>
-              <div class="invalid-feedback">
-                Hãy chọn phong cách sản phẩm
-              </div>
+          <div class="col-sm-4">
+            <label for="name" class="form-label">Giá: <span class="text-danger">(bắc buộc)</span></label>
+            <input type="number" class="form-control" id="price" name="price" placeholder="" value="{{product.price}}" required="">
+            <div class="invalid-feedback">
+              Giá không hợp lệ
             </div>
+          </div>
 
-              <div class="col-sm-12">
-                <label for="description" class="form-label">Mô tả sản phẩm</label>
-                <textarea value="{{product.description}}" class="form-control" id="description" name="description" rows="3"></textarea>
-              </div>
+          <div class="col-sm-4">
+            <label for="name" class="form-label">Số lượng: <span class="text-danger">(bắc buộc)</span></label>
+            <input type="text" class="form-control" id="qty" name="qty" placeholder="" value="{{product.qty}}" required="">
+            <div class="invalid-feedback">
+              Số lượng không hợp lệ
             </div>
+          </div>
 
-            <hr class="my-4">
-            <div class="row g-3 py-3 px-1 g-3 bg-light border rounded-3">  
-              <h5 class="my-3">Thông tin SEO</h5>
+
+          <div class="col-4">
+            <label for="supplier" class="form-label">Nhà cung cấp  <span class="text-danger">(bắc buộc)</span></label>
+            <select id="supplier" name="supplier" class="form-select" aria-label="Default select example">
+              <option selected value="">Open this select menu</option>
+              {% for supplier in supplierList %}
+                <option value={{supplier._id}}>{{supplier.name}}</option>
+              {% else %}
+                <li>This would display if the 'item' collection were empty</li>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              Hãy chọn nhà cung cấp
             </div>
+          </div>
 
-              <div class="col-sm-12 mt-3">
-                <label for="metaTitle" class="form-label">Tiêu đề meta</label>
-                <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="" value="{{product.metaTitle}}">
-              </div>
+          <div class="col-12">
+            <label for="category" class="form-label">Dòng sản phẩm</label>
+            <select multiple id="category" name="category" class="form-select" aria-label="Default select example">
+              {% for category in cateList %}
+                <option value={{category._id}}>{{category.name}}</option>
+              {% else %}
+                <li>This would display if the 'item' collection were empty</li>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              Hãy chọn dòng sản phẩm
+            </div>
+          </div>
 
-              <div class="col-sm-12 mt-3">
-                <label for="metaKeywords" class="form-label">Meta Keywords</label>
-                <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="" value="{{product.metaKeywords}}">
-              </div>
+          <div class="col-12">
+            <label for="manner" class="form-label">Phong cách</label>
+            <select multiple id="manner" name="manner" class="form-select" aria-label="Default select example">
+              {% for manner in mannerList %}
+                <option value={{manner._id}}>{{manner.name}}</option>
+              {% else %}
+                <li>This would display if the 'item' collection were empty</li>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              Hãy chọn phong cách sản phẩm
+            </div>
+          </div>
 
-              <div class="col-sm-12 mt-3">
-                <label for="metaDescription" class="form-label">Mô tả Meta</label>
-                <textarea row="5" class="form-control" id="metaDescription" value="{{product.metaDescription}}" name="metaDescription"></textarea>
-              </div>
+          <div class="col-sm-12">
+            <label for="description" class="form-label">Mô tả sản phẩm</label>
+            <textarea value="{{product.description}}" class="form-control" id="description" name="description" rows="3"></textarea>
+          </div>
+      </div>
+
+        <hr class="my-4">
+
+        <div class="row g-3 py-3 px-1 g-3 bg-light border rounded-3">  
+          <h5 class="my-3">Thông tin SEO</h5>
+          
+          <div class="col-sm-12 mt-3">
+            <label for="metaTitle" class="form-label">Tiêu đề meta</label>
+            <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="" value="{{product.metaTitle}}">
+          </div>
+
+          <div class="col-sm-12 mt-3">
+            <label for="metaKeywords" class="form-label">Meta Keywords</label>
+            <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="" value="{{product.metaKeywords}}">
+          </div>
+
+          <div class="col-sm-12 mt-3">
+            <label for="metaDescription" class="form-label">Mô tả Meta</label>
+            <textarea row="5" class="form-control" id="metaDescription" value="{{product.metaDescription}}" name="metaDescription"></textarea>
+          </div>
         </div>
 
 
-      <div class="col-md-6 col-lg-4 m-0">
+        </div>
+
+
+      <div class="col-md-6 m-0">
         <div class="row g-3 m-1 py-3 px-1 g-3 bg-light border rounded-3">
 
           <div class="col-sm-12">
@@ -227,7 +233,7 @@
 
             <div class="d-flex flex-wrap justify-content-start" id="listImage">  
               {% for path in product.imagePath %}
-                <img class="productImage" src="{{"/upload/products/" + path}}">
+                <img class="productImage image-thumbnail" src="{{"/upload/products/" + path}}">
               {% endfor %}
             </div>
           </div>
@@ -270,11 +276,11 @@
         form.addEventListener('submit', function (event) {
           event.preventDefault()
 
-          console.log(form.checkValidity())
-
           if (form.checkValidity()) {
 
               const formData = new FormData(this)
+              
+              formData.delete("file-input");
 
               imageList.map(el => formData.append("productMedia", el))
             
@@ -286,12 +292,9 @@
                   cache: false,
                   data: formData,
                   success: function (d) {
-                          console.log(d)
                     alert(d.message)
                   },
                   error: function (res, res, error) {
-
-                    console.log(error)
                     alert(error.message)
                   }
               })
