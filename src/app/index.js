@@ -19,7 +19,6 @@ const session = require('express-session')
 const validator = require('express-validator')
 const MongoStore = require('connect-mongo')
 const methodOverride = require('method-override')
-const User = require('@/models/User')
 
 const corsOptions = require('@root/config/cors')
 
