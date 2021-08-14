@@ -10,10 +10,6 @@ const jwt = require('jsonwebtoken')
 
 const { secretKey } = require('@root/config/jwt')
 
-const { randomTokenString } = require('@/utils/helper')
-
-const RefreshToken = require('@/models/RefreshToken')
-
 /**
  *
  * @param {Object} user
@@ -25,20 +21,20 @@ const generateJwtToken = (user) => {
 
 /**
  *
- * @param {Object} user
- * @param {String} ipAddress
+ * @param {Object} docs
+ * @param {String} imgPath
  * @returns create a refresh token that expires in 7 days
  */
-const generateRefreshToken = (user, ipAddress) => {
-  return new RefreshToken({
-    user: user.id,
-    token: randomTokenString(),
-    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    createdByIp: ipAddress
-  })
+const contvertImagePath = (docs, imgPath) => {
+  return docs.length
+    ? docs.map(el => {
+      el.imagePath = imgPath + el.imagePath
+      return el
+    })
+    : [...docs]
 }
 
 module.exports = {
   generateJwtToken,
-  generateRefreshToken
+  contvertImagePath
 }

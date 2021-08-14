@@ -11,6 +11,7 @@ const express = require('express')
 const router = express.Router()
 
 const {
+<<<<<<< HEAD:src/modulus/api/home/routes.js
   loginController,
   registerController,
   homeController
@@ -23,5 +24,11 @@ router.post('/home', homeController)
  * login
  */
 router.post('/auth/login', loginController)
+=======
+  homeController
+} = require('./controller')
+
+router.get('/home', homeController)
+>>>>>>> e9f0f6c152033350382d351a597ddcb5d34fff9b:src/modulus/api/auth/routes.js
 
 module.exports = router
