@@ -9,8 +9,10 @@
 const Cate = require('@/models/Cate')
 const Manner = require('@/models/Manner')
 const New = require('@/models/New')
+const Product = require('@/models/Product')
 const Project = require('@/models/Project')
 const Supplier = require('@/models/Supplier')
+
 const { contvertImagePath } = require('./service')
 
 async function homeController(req, res, next) {
@@ -21,10 +23,23 @@ async function homeController(req, res, next) {
     const news = await New.find().limit(7)
     const projects = await Project.find()
 
+    const mannerData = []
+    const categoriesData = []
+
+    for (const iterator of manners) {
+      let count = await Product.find({ mannerId: iterator.id }).count()
+      mannerData.push({ ...iterator._doc, count })
+    }
+
+    for (const iterator of categories) {
+      let count = await Product.find({ cateId: iterator.id }).count()
+      categoriesData.push({ ...iterator._doc, count })
+    }
+
     const data = {
-      manners: contvertImagePath(manners, '/upload/manner/'),
+      manners: contvertImagePath(mannerData, '/upload/manner/'),
       suppliers: contvertImagePath(suppliers, '/upload/supplier/'),
-      categories: contvertImagePath(categories, '/upload/category/'),
+      categories: contvertImagePath(categoriesData, '/upload/category/'),
       news: contvertImagePath(news, '/upload/news/'),
       projects: contvertImagePath(projects, '/upload/project/')
     }

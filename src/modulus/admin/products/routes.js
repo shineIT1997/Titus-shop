@@ -133,7 +133,7 @@ router.get('/product/list.html', isLoggedIn, async function (req, res) {
       .populate({ path: 'supplierID', select: 'name' })
 
     const productData = productList.map(el => {
-      el.supplierName = el.supplierID.name
+      if (el.supplierID) el.supplierName = el.supplierID.name
       el.imagePath = el.imagePath.map(path => '/upload/products/' + path)
       return el
     })
