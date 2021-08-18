@@ -6,14 +6,14 @@
 *@summary : manner controler
 */
 
-const Manner = require('@/models/Manner')
+const Supplier = require('@/models/Supplier')
 
-async function mannerListController(req, res, next) {
+async function brandListController(req, res, next) {
   try {
-    const manners = await Manner.find()
-    const data = manners.length
-      ? manners.map(el => {
-        el.imagePath = '/upload/manner/' + el.imagePath
+    const brands = await Supplier.find()
+    const data = brands.length
+      ? brands.map(el => {
+        el.imagePath = '/upload/supplier/' + el.imagePath
         return el
       })
       : []
@@ -28,4 +28,4 @@ async function mannerListController(req, res, next) {
   }
 }
 
-module.exports = { mannerListController }
+module.exports = { brandListController }

@@ -17,6 +17,9 @@ const { contvertImagePath } = require('./service')
 
 async function homeController(req, res, next) {
   try {
+    // console.log(`req.get('host') : `, req.get('host'))
+    // console.log(`req : `, req)
+
     const manners = await Manner.find().limit(4)
     const suppliers = await Supplier.find()
     const categories = await Cate.find().limit(7)
