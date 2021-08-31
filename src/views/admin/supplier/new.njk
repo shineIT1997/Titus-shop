@@ -133,6 +133,20 @@
             </div>
           </div>
 
+          <div class="col-12">
+            <label for="category" class="form-label">Dòng sản phẩm</label>
+            <select multiple id="category" name="category" class="form-select" aria-label="Default select example">
+              {% for category in cateList %}
+                <option value={{category._id}}>{{category.name}}</option>
+              {% else %}
+                <li>This would display if the 'item' collection were empty</li>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              Hãy chọn dòng sản phẩm
+            </div>
+          </div>
+
           <hr class="my-4">
 
           <div class="col-sm-4 d-flex ms-auto">

@@ -29,7 +29,7 @@ const contvertImagePath = (docs, imgPath) => {
   return docs.length
     ? docs.map(el => {
       el.imagePath = imgPath + el.imagePath
-      return el
+      return { ...el }
     })
     : [...docs]
 }

@@ -17,7 +17,14 @@ let schema = new Schema({
     type: String,
     trim: true,
     require: true
-  }
+  },
+  cateId: [
+    {
+      type: String,
+      ref: 'cate',
+      required: 'Please enter Cate'
+    }
+  ]
 })
 
 const options = {

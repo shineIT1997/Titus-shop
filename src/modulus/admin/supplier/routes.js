@@ -8,6 +8,7 @@ const path = require('path')
 const imageUtil = require('@/utils/image')
 const Supplier = require('@/models/Supplier')
 const { isLoggedIn } = require('@/middlewares/auth')
+const Cate = require('@/models/Cate')
 
 const SUPPLIER_FOLDER = './public/upload/supplier'
 
@@ -31,8 +32,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 // add new supplier
-router.get('/supplier/new.html', isLoggedIn, function (req, res) {
-  res.render('admin/supplier/new', { errors: null, layout: false })
+router.get('/supplier/new.html', isLoggedIn, async function (req, res) {
+  const cateList = await Cate.find()
+  res.render('admin/supplier/new', { errors: null, layout: false, cateList })
 })
 
 // add new supplier
@@ -61,6 +63,7 @@ router.post('/supplier/new.html', isLoggedIn, upload.single('baseImage'), async 
 
     const newSupplier = new Supplier({
       imagePath: image.filename,
+      cateId: typeof req.body.category === 'string' ? [req.body.category] : req.body.category,
       supId: body.id,
       name: body.name
     })
@@ -112,8 +115,9 @@ router.get('/supplier/:id/delete.html', isLoggedIn, async function (req, res) {
 
 router.get('/supplier/:id/update.html', isLoggedIn, async function (req, res) {
   try {
+    const cateList = await Cate.find()
     const supplier = await Supplier.findById(req.params.id)
-    res.render('admin/supplier/update', { supplier })
+    res.render('admin/supplier/update', { supplier, cateList })
   } catch (error) {
     res.render('notFound')
   }
@@ -139,7 +143,8 @@ router.post('/supplier/:id/update.html', isLoggedIn, upload.single('baseImage'),
     } else {
       const payload = {
         supId: body.id,
-        name: body.name
+        name: body.name,
+        cateId: typeof req.body.category === 'string' ? [req.body.category] : req.body.category
       }
 
       if (req.file) {
@@ -152,8 +157,9 @@ router.post('/supplier/:id/update.html', isLoggedIn, upload.single('baseImage'),
       })
 
       const supplier = await Supplier.findById(req.params.id)
+      const cateList = await Cate.find()
 
-      res.render('admin/supplier/update', { success: 'Cập nhật thành công', supplier })
+      res.render('admin/supplier/update', { success: 'Cập nhật thành công', supplier, cateList })
     }
   } catch (error) {
     res.render('admin/supplier/update', { errors: [error.message] })
