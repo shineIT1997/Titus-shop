@@ -107,7 +107,14 @@
       <div class="row g-3">  
       <h5 class="mb-3">Thông tin cơ bản</h5>
       <div class="col-md-6 col-lg-6  ">
-          <div class="row g-3 m-1 px-1 py-3 bg-light border rounded-3">          
+          <div class="row g-3 m-1 px-1 py-3 bg-light border rounded-3">    
+            <div class="col-sm-12 d-flex align-items-start">
+              <input class="form-check-input" type="checkbox" id="isHot" name="isHot">
+              <label class="form-check-label mx-2" for="isHot">
+                Sản phẩm hot
+              </label>
+            </div>
+
               <div class="col-sm-6">
                 <label for="id" class="form-label">Mã sản phẩm <span class="text-danger">(bắc buộc)</span></label>
                 <input type="text" class="form-control" id="id" name="id" placeholder="" value="" required="">

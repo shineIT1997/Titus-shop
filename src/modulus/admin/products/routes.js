@@ -97,6 +97,7 @@ router.post('/product/new.html', isLoggedIn, upload.array('productMedia', 10), a
       const pro = new Product({
         imagePath,
         slug,
+        isHot: Boolean(req.body.isHot),
         title: req.body.name,
         productId: req.body.id,
         description: req.body.description,
@@ -218,6 +219,7 @@ router.post('/product/:id/update.html', isLoggedIn, upload.array('productMedia',
       }
 
       const payload = {
+        isHot: Boolean(req.body.isHot),
         imagePath: imagePath.length ? imagePath : product.imagePath,
         title: req.body.name,
         productId: req.body.id,

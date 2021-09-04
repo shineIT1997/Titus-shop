@@ -69,6 +69,9 @@ let schema = new Schema({
     type: Number,
     trim: true,
     require: true
+  },
+  isHot: {
+    type: Boolean
   }
 
 })

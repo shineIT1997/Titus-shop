@@ -87,11 +87,6 @@
   <h1 class="h2">Thêm sản phẩm</h1>
 </div>
 
-    <div id="noti">
-    </div>
-
-
-
     {% if errors %}
       <div class="alert alert-danger alert-dismissible fade show" role="alert">         
         {% for msg in errors %}
@@ -100,7 +95,6 @@
         {% endfor %} 
       </div>
     {% endif %}
-
 
 <div class="row" style="padding: 0px 16px 32px">
   <form 
@@ -111,7 +105,19 @@
       <div class="row g-3">  
       <h5 class="mb-3">Thông tin cơ bản</h5>
       <div class="col-md-6 my-0">
-        <div class="row g-3 m-1 px-1 py-3 bg-light border rounded-3">          
+        <div class="row g-3 m-1 px-1 py-3 bg-light border rounded-3">
+
+          <div class="col-sm-12 d-flex align-items-start">
+          {%if product.isHot %}
+            <input class="form-check-input" type="checkbox" checked id="isHot" name="isHot">
+          {% else %}
+          <input class="form-check-input" type="checkbox" id="isHot" name="isHot">
+          {% endif %}
+            <label class="form-check-label mx-2" for="isHot">
+              Sản phẩm hot
+            </label>
+          </div>
+
           <div class="col-sm-6">
             <label for="id" class="form-label">Mã sản phẩm <span class="text-danger">(bắc buộc)</span></label>
             <input type="text" class="form-control" id="id" name="id" placeholder="" value="{{product.productId}}" required="">
@@ -127,6 +133,8 @@
               Tên sản phẩm không hợp lệ
             </div>
           </div>
+
+
 
           <div class="col-sm-4">
             <label for="name" class="form-label">Giá: <span class="text-danger">(bắc buộc)</span></label>
@@ -190,7 +198,7 @@
 
           <div class="col-sm-12">
             <label for="description" class="form-label">Mô tả sản phẩm</label>
-            <textarea value="{{product.description}}" class="form-control" id="description" name="description" rows="3"></textarea>
+            <textarea class="form-control" id="description" name="description" rows="3">{{product.description}}</textarea>
           </div>
       </div>
 
@@ -211,11 +219,9 @@
 
           <div class="col-sm-12 mt-3">
             <label for="metaDescription" class="form-label">Mô tả Meta</label>
-            <textarea row="5" class="form-control" id="metaDescription" value="{{product.metaDescription}}" name="metaDescription"></textarea>
+            <textarea row="5" class="form-control" id="metaDescription"  name="metaDescription">{{product.metaDescription}}</textarea>
           </div>
         </div>
-
-
         </div>
 
 
