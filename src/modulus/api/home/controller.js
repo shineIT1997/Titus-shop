@@ -61,7 +61,7 @@ async function homeController(req, res, next) {
       data
     })
   } catch (error) {
-    next(error)
+    res.status(400).send(error)
   }
 }
 
