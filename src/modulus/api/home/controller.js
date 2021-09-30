@@ -41,8 +41,8 @@ async function homeController(req, res, next) {
 
     for (const iterator of suppliers) {
       const cateClone = lodash.cloneDeep(iterator.cateId || [])
-
-      const cateData = contvertImagePath(cateClone, '/upload/category/')?.map(el => el._doc)
+      console.log(`contvertImagePath(cateClone, '/upload/category/') : `, contvertImagePath(cateClone, '/upload/category/'))
+      const cateData = contvertImagePath(cateClone, '/upload/category/').map(el => el._doc)
 
       supplierData.push({ ...iterator._doc, cateId: cateData })
     }
