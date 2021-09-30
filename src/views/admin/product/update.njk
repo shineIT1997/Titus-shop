@@ -156,7 +156,6 @@
           <div class="col-4">
             <label for="supplier" class="form-label">Nhà cung cấp  <span class="text-danger">(bắc buộc)</span></label>
             <select id="supplier" name="supplier" class="form-select" aria-label="Default select example">
-              <option selected value="">Open this select menu</option>
               {% for supplier in supplierList %}
                 <option value={{supplier._id}}>{{supplier.name}}</option>
               {% else %}

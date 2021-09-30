@@ -205,9 +205,9 @@ router.post('/product/:id/update.html', isLoggedIn, upload.array('productMedia',
           })
         }
       }
+      res.send({ message: 'Cập nhật thất bại' }).status(400)
     } else {
       const product = await Product.findById(req.params.id)
-
       const imagePath = []
 
       if (req.files) {

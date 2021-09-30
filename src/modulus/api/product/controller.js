@@ -8,6 +8,16 @@
 
 const Product = require('@/models/Product')
 
+async function getAllProduct(req, res, next) {
+  const products = await Product.find()
+
+  return res.status(200).send({
+    status: 200,
+    message: 'success',
+    data: [...products]
+  })
+}
+
 async function productListController(req, res, next) {
   try {
     const {
@@ -28,6 +38,8 @@ async function productListController(req, res, next) {
       queryParams.cateId = { $in: [cateId] }
     }
 
+    if (Object.keys(queryParams).includes('isHot')) queryParams.isHot = true
+
     const products = await Product.paginate(queryParams, {
       sort,
       page,
@@ -44,9 +56,7 @@ async function productListController(req, res, next) {
     return res.status(200).send({
       status: 200,
       message: 'success',
-      data: {
-        ...products
-      }
+      ...products
     })
   } catch (error) {
     next(error)
@@ -69,12 +79,25 @@ async function productDetailController(req, res, next) {
       })
       .lean()
 
+    const related = await Product.find({ supplierID: product.supplierID._id })
+
+    const relatedProducts = related.map(el => {
+      if (!el) return el
+
+      el.imagePath = el.imagePath.map(path => '/upload/products/' + path)
+
+      return el
+    })
+
     product.imagePath = product.imagePath.map(path => '/upload/products/' + path)
 
     return res.status(200).send({
       status: 200,
       message: 'success',
-      data: { ...product }
+      data: {
+        product: { ...product },
+        relatedProducts
+      }
     })
   } catch (error) {
     console.log(`error : `, error)
@@ -82,4 +105,4 @@ async function productDetailController(req, res, next) {
   }
 }
 
-module.exports = { productListController, productDetailController }
+module.exports = { productListController, productDetailController, getAllProduct }

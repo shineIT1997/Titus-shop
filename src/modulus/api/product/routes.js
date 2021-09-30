@@ -11,11 +11,13 @@ const express = require('express')
 const router = express.Router()
 
 const {
+  getAllProduct,
   productListController,
   productDetailController
 } = require('./controller')
 
-router.get('/product/list', productListController)
+router.get('/allProducts', getAllProduct)
+router.get('/search', productListController)
 router.get('/product/:slug', productDetailController)
 
 module.exports = router
