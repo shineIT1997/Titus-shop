@@ -152,7 +152,7 @@ const startServer = async() => {
   //   debug('Listening on ' + bind)
   // }
 
-  await server.listen(port)
+  await server.listen(port, '127.0.0.1')
 
   // server.on('error', onError)
   // server.on('listening', onListening)
