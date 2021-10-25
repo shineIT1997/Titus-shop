@@ -79,9 +79,9 @@ async function productDetailController(req, res, next) {
       })
       .lean()
 
-    const related = await Product.find({ supplierID: product.supplierID._id })
+    const related = await Product.find({ supplierID: product.supplierID._id }).limit(5)
 
-    const relatedProducts = related.map(el => {
+    const relatedProducts = related.filter(el => el.slug !== req.params.slug).map(el => {
       if (!el) return el
 
       el.imagePath = el.imagePath.map(path => '/upload/products/' + path)
