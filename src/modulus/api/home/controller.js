@@ -42,7 +42,11 @@ async function homeController(req, res, next) {
 
     for (const iterator of suppliers) {
       const cateClone = lodash.cloneDeep(iterator.cateId || [])
-      const cateData = contvertImagePath(cateClone, '/upload/category/').map(el => el._doc)
+      const cateData = contvertImagePath(cateClone, '/upload/category/').map(async el => {
+        let countProduct = await Product.find({ cateId: el._doc._id, supplierID: iterator._id }).count()
+        el._doc.countProduct = countProduct
+        return el._doc
+      })
 
       supplierData.push({ ...iterator._doc, cateId: cateData })
     }
