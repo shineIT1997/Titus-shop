@@ -24,6 +24,13 @@ let schema = new Schema({
       ref: 'cate',
       required: 'Please enter Cate'
     }
+  ],
+  mannerId: [
+    {
+      type: String,
+      ref: 'manner',
+      required: 'Please enter UserID'
+    }
   ]
 })
 

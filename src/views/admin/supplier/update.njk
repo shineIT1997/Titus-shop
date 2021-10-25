@@ -155,6 +155,20 @@
             </div>
           </div>
 
+          <div class="col-12">
+            <label for="manner" class="form-label">Phong Cách</label>
+            <select multiple id="manner" name="manner" class="form-select" aria-label="Default select example">
+              {% for manner in mannerList %}
+                <option value={{manner._id}}>{{manner.name}}</option>
+              {% else %}
+                <li>This would display if the 'item' collection were empty</li>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              Hãy chọn phong cách
+            </div>
+          </div>
+
           <hr class="my-4">
 
           <div class="col-sm-4 d-flex ms-auto">
@@ -175,9 +189,10 @@
   const optionList = document.querySelectorAll('option')
 
   const cateArr = "{{supplier.cateId}}".split(",")
+  const mannerArr = "{{supplier.mannerId}}".split(",")
 
   optionList.forEach(option => {
-    if(cateArr.includes(option.value)) option.selected = true
+    if(cateArr.includes(option.value) !! mannerArr.include(option.value)) option.selected = true
   })
 
   Array.prototype.slice.call(forms)

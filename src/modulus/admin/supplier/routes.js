@@ -9,6 +9,7 @@ const imageUtil = require('@/utils/image')
 const Supplier = require('@/models/Supplier')
 const { isLoggedIn } = require('@/middlewares/auth')
 const Cate = require('@/models/Cate')
+const Manner = require('@/models/Manner')
 
 const SUPPLIER_FOLDER = './public/upload/supplier'
 
@@ -34,7 +35,8 @@ const upload = multer({ storage: storage })
 // add new supplier
 router.get('/supplier/new.html', isLoggedIn, async function (req, res) {
   const cateList = await Cate.find()
-  res.render('admin/supplier/new', { errors: null, layout: false, cateList })
+  const mannerList = await Manner.find()
+  res.render('admin/supplier/new', { errors: null, layout: false, cateList, mannerList })
 })
 
 // add new supplier
@@ -64,6 +66,7 @@ router.post('/supplier/new.html', isLoggedIn, upload.single('baseImage'), async 
     const newSupplier = new Supplier({
       imagePath: image.filename,
       cateId: typeof req.body.category === 'string' ? [req.body.category] : req.body.category,
+      mannerId: typeof req.body.manner === 'string' ? [req.body.manner] : req.body.manner,
       supId: body.id,
       name: body.name
     })
@@ -117,7 +120,8 @@ router.get('/supplier/:id/update.html', isLoggedIn, async function (req, res) {
   try {
     const cateList = await Cate.find()
     const supplier = await Supplier.findById(req.params.id)
-    res.render('admin/supplier/update', { supplier, cateList })
+    const mannerList = await Manner.find()
+    res.render('admin/supplier/update', { supplier, cateList, mannerList })
   } catch (error) {
     res.render('notFound')
   }
@@ -144,7 +148,8 @@ router.post('/supplier/:id/update.html', isLoggedIn, upload.single('baseImage'),
       const payload = {
         supId: body.id,
         name: body.name,
-        cateId: typeof req.body.category === 'string' ? [req.body.category] : req.body.category
+        cateId: typeof req.body.category === 'string' ? [req.body.category] : req.body.category,
+        mannerId: typeof req.body.manner === 'string' ? [req.body.manner] : req.body.manner
       }
 
       if (req.file) {

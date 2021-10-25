@@ -30,8 +30,9 @@ async function homeController(req, res, next) {
     const supplierData = []
 
     for (const iterator of manners) {
-      let count = await Product.find({ mannerId: iterator.id }).count()
-      mannerData.push({ ...iterator._doc, count })
+      let countProduct = await Product.find({ mannerId: iterator.id }).count()
+      let countSupplier = await Supplier.find({ mannerId: iterator.id }).count()
+      mannerData.push({ ...iterator._doc, countProduct, countSupplier })
     }
 
     for (const iterator of categories) {

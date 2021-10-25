@@ -1,0 +1,22 @@
+Admin :
+	Product: bỏ require giá, số lượng,
+	News: thêm description
+
+Customer: 
+
+	Manner: report product
+		report cate
+		report supplier
+	Category:option "All"
+		layout list
+		Disable Loadmore
+	Footer: link icon
+		add zalo icon
+
+	Product page : hide review
+
+	News List : Concept https://www.archiproducts.com/en/news
+
+	
+
+	Bản hướng dẫn .
